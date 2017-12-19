@@ -28,9 +28,9 @@ In the React documentation [`Thinking in React`](https://reactjs.org/docs/thinki
 
 <img width="730" alt="screen shot 2017-12-18 at 11 55 43 pm" src="https://user-images.githubusercontent.com/5876481/34146473-09e460e4-e44f-11e7-8e9a-00990647c303.png">
 
-> 1. what thing do we need to manage by hand and
+        1. what thing do we need to manage by hand and
 
-> 2. what thing do we need to figure out or drive from the state we have
+        2. what thing do we need to figure out or drive from the state we have
 
 For example, for a `full name`, what you don't want to be incharge of everytime `first name` and `last name` changes you have into go manually and `set the state` of the the `full-name`. You have all the information you need to drive that information already. 
 
@@ -38,11 +38,11 @@ Think of the bare-minimum amount of state you need, and drive everything from th
 
 ### what is state
 
-> 1. Is it passed in from a parent via props? If so, it probably isn't state. 
+        1. Is it passed in from a parent via props? If so, it probably isn't state. 
 
-> 2. Does it remain unchanged over time? If so, it probably isn't state. 
+        2. Does it remain unchanged over time? If so, it probably isn't state. 
 
-> 3. Can you compute it based on any other state or props in your component? If so, it isn't state. 
+        3. Can you compute it based on any other state or props in your component? If so, it isn't state. 
 
 
 If it remains unchanged it is a `static markup`. **The best way to get good at state management is, to manage as little state as possible**. 
@@ -104,27 +104,27 @@ We have `Counter` and `DoubleCount`. In this case `DoubleCount` is just a second
 ### all state not created equal
 State is abroad term. There are different interpretation of it. There are many kinds of state: 
 
-#### model data
+#### 1. model data
 The nouns in your application. 
 
-#### view/UI state
+#### 2. view/UI state
 Are those nouns sorted in ascending or descending order? 
 
-#### session state
+#### 3. session state
 Is the user even logged in?
 
-#### communication
+#### 4. communication
 Are we in the process of fetching the nouns from the server?
 
-#### location
+#### 5. location
 Where are we in the application? Which nouns are we looking at? 
 
 Or it might make sence to think about state relative to time. 
 
-#### long-lasting state
+#### 6. long-lasting state
 This is likely the data in your application. Model state. e.g. in gmail the list of email tiy looking at. 
 
-#### ephemeral state
+#### 7. ephemeral state
 Stuff like the value of an input field that will be wiped away when you hit "enter". e.g. what you currently type in gmail input field for search, is a short lived state
 
 ## Ask yourself: 
