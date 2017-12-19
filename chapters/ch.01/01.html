@@ -1,0 +1,33 @@
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.0/prop-types.js"></script>
+
+<script type="text/babel">
+  class Counter extends React.Component {
+    state = { count: 10 };
+
+    render() {
+      const { count } = this.state;
+      return(
+        <div>
+          <h2>This is my state: { count }</h2>
+          <DoubleCount count={ count } />
+        </div>
+      )
+    }
+  }
+
+  class DoubleCount extends React.Component {
+    render() {
+      const { count } = this.props;
+      return (<p> This is my prop: { count * 2}</p>)
+    }
+  }
+
+  ReactDOM.render(
+    <Counter />,
+    document.getElementById('root')
+  )
+</script>
