@@ -815,3 +815,191 @@ Now the list is rendering on the page.
 
 <img width="990" alt="screen shot 2017-12-20 at 4 32 19 am" src="https://user-images.githubusercontent.com/5876481/34207326-d744cb06-e53e-11e7-9f16-22b3a062b1f0.png">
 
+### 2. add a new item
+We got all on the page and the next step is to add a new item. The `items` are currently the `state` of the `application` component. Which means the only place I have access to them is inside the `application` component, if i passed them down as `props` they are `immutable` I can't give them to the `NewItem` component. That is not going to work. 
+
+```html
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+
+import './NewItem.css';
+
+class NewItem extends Component {
+  state = { value: '' };
+
+  handleChange = event => {
+    // Do something when the state of this input changes.
+  };
+
+  handleSubmit = event => {
+    const { onSubmit } = this.props;
+    const { value } = this.state;
+
+    event.preventDefault();
+
+    // Do something when a new value is submitted.
+
+    // Reset the state of the component.
+  };
+
+  render() {
+    const { value } = this.state;
+
+    return (
+      <form className="NewItem" onSubmit={this.handleSubmit}>
+        <input
+          className="NewItem-input"
+          type="text"
+          value={value}
+          onChange={this.handleChange}
+        />
+        <input className="NewItem-submit button" type="submit" />
+      </form>
+    );
+  }
+}
+
+export default NewItem;
+```
+
+Instead, I can give the `NewItem` component a function that a NewItem can call and it can manipulate state on the `Application` component. It is ** data down, action is up**.  
+
+1. we make a new function called `addItem`, can be done with push, spread-operator
+
+2. make a new array with all the items that are currently on state `this.setState({ items: [...this.state.items] })`
+
+3. give the new item at the beginning `this.setState({ items: [item, ...this.state.items] })`
+
+4. give the `addItem` function to the `NewItem` component
+
+```diff
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import CountDown from './CountDown';
+import NewItem from './NewItem';
+import Items from './Items';
+
+import './Application.css';
+
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
+
+class Application extends Component {
+  state = {
+    // Set the initial state,
+    items: defaultState
+  };
+
+  // How are we going to manipualte the state?
+  // Ideally, users are going to want to add, remove,
+  // and check off items, right?
+
++  addItem = item => {
++    this.setState({
++      items: [item, ...this.state.items]
++    });
++  };
+
+  render() {
+    // Get the items from state
+    const { items } = this.state;
+    const unpackedItems = items.filter(item => !item.packed);
+    const packedItems = items.filter(item => item.packed);
+
+    return (
+      <div className="Application">
+-        <NewItem />
++        <NewItem onSubmit={this.addItem}/>
+        <CountDown />
+        <Items title="Unpacked Items" items={unpackedItems} />
+        <Items title="Packed Items" items={packedItems} />
+        <button className="button full-width">Mark All As Unpacked</button>
+      </div>
+    );
+  }
+}
+
+export default Application;
+``` 
+Now we are going to give the ability to add an item. 
+Now this function (`addItem`) is created in the `Application` scope, so it has ** access to the state ** of the `Application` component. Give it away, we passing down,  to the `NewItem` component.
+
+1. NewItem has `handleChange` it seems like a good place to call add item, the reason I have extra method here is because it is not going to be the item it is going to be the event when they hit Submit on the form. What i really need is the `name of that NewItem
+
+2. We don't have a great-setup right now. We will have later with Redux, ... `onSubmit( {value, id: uniqueId, packed: false} );` because the 
+the presentation layer should not handle normaising of my data. Right? :smirk: :smirk: :smirk:
+
+3. NewItem has its own state, `value` we get the value whenever it changes and we set it the `value` state
+
+4. when submit, pass the `value` to the `addItem` function of the `Application` component 
+
+5. after submit, clear input
+
+
+```diff
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+
+import './NewItem.css';
+
+class NewItem extends Component {
+  state = { value: '' };
+
+  handleChange = event => {
+    // Do something when the state of this input changes.
++    const value = event.target.value;
++    this.setState({ value });
+  };
+
+  handleSubmit = event => {
+    const { onSubmit } = this.props;
+    const { value } = this.state;
+
+    event.preventDefault();
+
+    // Do something when a new value is submitted.
++    onSubmit( {value, id: uniqueId(), packed: false} );
++    console.log(value);
+
+    // Reset the state of the component.
++    this.setState({ value: ''});
+  };
+
+  render() {
+    const { value } = this.state;
+
+    return (
+      <form className="NewItem" onSubmit={this.handleSubmit}>
+        <input
+          className="NewItem-input"
+          type="text"
+          value={value}
+          onChange={this.handleChange}
+        />
+        <input className="NewItem-submit button" type="submit" />
+      </form>
+    );
+  }
+}
+
+export default NewItem;
+```
+ 
+Array of items (`Application` component) to the items list (`Items` component), and the to the item (`item` component). This is where it gets FUN :disappointed_relieved: :weary: :pensive:
+
+To be able to check the item or remove the item, where does list of items live? `Application`, what is in the middle `Items` lis, and then `Item`. 
+
+This means in order to get `event` listener down to the individual item you have got to start going down from the `Application`, and to the `Items` list, and down to the `Item`. And that event will call all the way back to the `Application` component.
+
+### 3. remove an item

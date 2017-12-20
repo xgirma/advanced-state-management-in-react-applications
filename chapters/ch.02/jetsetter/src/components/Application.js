@@ -30,6 +30,13 @@ class Application extends Component {
   // Ideally, users are going to want to add, remove,
   // and check off items, right?
 
+  addItem = item => {
+    console.log('item, ', item)
+    this.setState({
+      items: [item, ...this.state.items]
+    });
+  };
+
   render() {
     // Get the items from state
     const { items } = this.state;
@@ -38,7 +45,7 @@ class Application extends Component {
 
     return (
       <div className="Application">
-        <NewItem />
+        <NewItem onSubmit={this.addItem}/>
         <CountDown />
         <Items title="Unpacked Items" items={unpackedItems} />
         <Items title="Packed Items" items={packedItems} />
