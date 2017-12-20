@@ -688,3 +688,130 @@ class Items extends Component {
 ````
 
 ## Example Application: jet setter
+In a large application you have to go down a few more ancestors. Note: `chapters/ch.02/jetsetter/srcBefore/` contains the original code before modification. The same code can be found [here](https://github.com/stevekinney/jetsetter/blob/master/README.md) under the `basic-state` branch. 
+
+It is a small app, but we have the problems we find in large applications. We have gone to pass-down stuff from parent, to children, and grand children ...  in a large app you may need to go down a few more ancestors, but the process if effectively the same. This helps to begin wrap our mind around it.
+ 
+### 1. get the list of items on the page
+
+```javascript
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import CountDown from './CountDown';
+import NewItem from './NewItem';
+import Items from './Items';
+
+import './Application.css';
+
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
+
+class Application extends Component {
+  state = {
+    // Set the initial state,
+  };
+
+  // How are we going to manipualte the state?
+  // Ideally, users are going to want to add, remove,
+  // and check off items, right?
+
+  render() {
+    // Get the items from state
+
+    return (
+      <div className="Application">
+        <NewItem />
+        <CountDown />
+        <Items title="Unpacked Items" items={[]} />
+        <Items title="Packed Items" items={[]} />
+        <button className="button full-width">Mark All As Unpacked</button>
+      </div>
+    );
+  }
+}
+
+export default Application;
+```
+1. take array of default items to set the initial state
+
+2. I need two kinds of array, packed and unpacked
+
+3. get the entire items in the render function, by destructuring items from the initial state
+
+4. cheat using the packed boolean, to get the packed and unpacked separately
+
+:skull: This means I am going to filter in each of them for every render. I am ok with that for now. :skull:
+
+5. Pass them to the component
+
+```diff
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import CountDown from './CountDown';
+import NewItem from './NewItem';
+import Items from './Items';
+
+import './Application.css';
+
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
+
+class Application extends Component {
+  state = {
+    // Set the initial state,
++    items: defaultState
+  };
+
+  // How are we going to manipualte the state?
+  // Ideally, users are going to want to add, remove,
+  // and check off items, right?
+
+  render() {
+    // Get the items from state
++    const { items } = this.state;
++    const unpackedItems = items.filter(item => !item.packed);
++    const packedItems = items.filter(item => item.packed);
+
+    return (
+      <div className="Application">
+        <NewItem />
+        <CountDown />
+-        <Items title="Unpacked Items" items={[]} />
+-        <Items title="Packed Items" items={[]} />
++        <Items title="Unpacked Items" items={unpackedItems} />
++        <Items title="Packed Items" items={packedItems} />
+        <button className="button full-width">Mark All As Unpacked</button>
+      </div>
+    );
+  }
+}
+
+export default Application;
+```
+
+Now the list is rendering on the page. 
+
+<img width="990" alt="screen shot 2017-12-20 at 4 32 19 am" src="https://user-images.githubusercontent.com/5876481/34207326-d744cb06-e53e-11e7-9f16-22b3a062b1f0.png">
+
