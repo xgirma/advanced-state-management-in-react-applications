@@ -1003,3 +1003,160 @@ To be able to check the item or remove the item, where does list of items live? 
 This means in order to get `event` listener down to the individual item you have got to start going down from the `Application`, and to the `Items` list, and down to the `Item`. And that event will call all the way back to the `Application` component.
 
 ### 3. remove an item
+
+1. create removeItem, spare items that have different id that the one that needs to be removed
+
+2. Now it needs to go down, each step,
+
+3. pass down to the `Items` list 
+
+```diff
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import CountDown from './CountDown';
+import NewItem from './NewItem';
+import Items from './Items';
+
+import './Application.css';
+
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
+
+class Application extends Component {
+  state = {
+    // Set the initial state,
+    items: defaultState
+  };
+
+  // How are we going to manipualte the state?
+  // Ideally, users are going to want to add, remove,
+  // and check off items, right?
+
+  addItem = item => {
+    console.log('item, ', item)
+    this.setState({
+      items: [item, ...this.state.items]
+    });
+  };
+
++  removeItem = itemToRemove => {
++    this.setState({
++      items: this.state.items.filter( item => item.id !== itemToRemove.id)
++    });
++  };
+
+  render() {
+    // Get the items from state
+    const { items } = this.state;
+    const unpackedItems = items.filter(item => !item.packed);
+    const packedItems = items.filter(item => item.packed);
+
+    return (
+      <div className="Application">
+        <NewItem onSubmit={this.addItem}/>
+        <CountDown />
+-        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} />
+-        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} />
++        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} />
++        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} />
+        <button className="button full-width">Mark All As Unpacked</button>
+      </div>
+    );
+  }
+}
+
+export default Application;
+```
+
+4. On the `Items` list, extract `onRemove` from the prop
+
+5. `<item onRemove={() => onRemove(item.id)} />` so when Remove linkis clicked on the `Item` component, that is going to passed on to Items and then to Application.  Again, this is a small application, this dosen't get better as your application grows. 
+
+```diff
+import React, { Component } from 'react';
+import Item from './Item';
+import Filter from './Filter';
+
+class Items extends Component {
+  state = {
+    // What state does this component have?
+  };
+
+  updateSearchTerm = searchTerm => {};
+
+  render() {
+-    const { title, items } = this.props;
++    const { title, items, onRemove } = this.props;
+    return (
+      <section className="Items">
+        <h2>
+          {title} ({items.length})
+        </h2>
+        <Filter searchTerm={''} onChange={this.updateSearchTerm} />
+        {items
+          .filter(item =>
+            // Hmm… this needs some work.
+            item.value.toLowerCase().includes(''.toLowerCase()),
+          )
+          .map(item => (
+            <Item
+              key={item.id}
+              onCheckOff={() => {}}
+-              onRemove={() => {}}
++              onRemove={() => onRemove(item)}
+              item={item}
+            />
+          ))}
+      </section>
+    );
+  }
+}
+
+export default Items;
+```
+
+6. on the `Item`, get the `onRemove` prop. `const { item, onRemove } = this.props;`
+
+7. add it to the button, `<button className="Item-remove" onClick={() => onRemove(item)}>`
+
+```diff
+import React, { Component } from 'react';
+import './Item.css';
+
+class Item extends Component {
+  render() {
+-    const { item } = this.props;
++    const { item, onRemove } = this.props;
+    return (
+      <article className="Item">
+        <label htmlFor={item.id}>
+          <input
+            type="checkbox"
+            checked={item.packed}
+            onChange={() => {}}
+            id={item.id}
+          />
+          {item.value}
+        </label>
+-        <button className="Item-remove" onClick={() => {}}>
++        <button className="Item-remove" onClick={() => onRemove(item)}>
+          Remove
+        </button>
+      </article>
+    );
+  }
+}
+
+export default Item;
+```

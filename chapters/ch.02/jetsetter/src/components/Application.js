@@ -37,6 +37,12 @@ class Application extends Component {
     });
   };
 
+  removeItem = itemToRemove => {
+    this.setState({
+      items: this.state.items.filter( item => item.id !== itemToRemove.id)
+    });
+  };
+
   render() {
     // Get the items from state
     const { items } = this.state;
@@ -47,8 +53,8 @@ class Application extends Component {
       <div className="Application">
         <NewItem onSubmit={this.addItem}/>
         <CountDown />
-        <Items title="Unpacked Items" items={unpackedItems} />
-        <Items title="Packed Items" items={packedItems} />
+        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} />
+        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );
