@@ -1044,7 +1044,6 @@ class Application extends Component {
   // and check off items, right?
 
   addItem = item => {
-    console.log('item, ', item)
     this.setState({
       items: [item, ...this.state.items]
     });
@@ -1151,6 +1150,173 @@ class Item extends Component {
         </label>
 -        <button className="Item-remove" onClick={() => {}}>
 +        <button className="Item-remove" onClick={() => onRemove(item)}>
+          Remove
+        </button>
+      </article>
+    );
+  }
+}
+
+export default Item;
+```
+
+### add packed/unpacked checkbox functionality 
+I will **pass the function all the way down**, that what we did in the remove case. You have to be consistant on that. 
+
+What is the easiest way to change one in an array? map over it and filter and change, otherwise stay where you are. 
+
+IF you feel this is a little bit TEDIOUS that is the point. This is manually manipulating state, you have to pass it down, and bring back up is part of the problem, we are trying to solve. 
+
+6. create a `toogleItem`
+
+7. pass it down to the `Items`
+
+```diff
+import React, { Component } from 'react';
+import uniqueId from 'lodash/uniqueId';
+import CountDown from './CountDown';
+import NewItem from './NewItem';
+import Items from './Items';
+
+import './Application.css';
+
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
+
+class Application extends Component {
+  state = {
+    // Set the initial state,
+    items: defaultState
+  };
+
+  // How are we going to manipualte the state?
+  // Ideally, users are going to want to add, remove,
+  // and check off items, right?
+
+  addItem = item => {
+    this.setState({
+      items: [item, ...this.state.items]
+    });
+  };
+
+  removeItem = itemToRemove => {
+    this.setState({
+      items: this.state.items.filter( item => item.id !== itemToRemove.id)
+    });
+  };
+
++  markAsPacked = item => {
++    const otherItems = this.state.items.filter(other => other.id !== item.id);
++    const updatedItem = { ...item, packed: !item.packed };
++    this.setState({ items: [updatedItem, ...otherItems] });
++  };
+
+  render() {
+    // Get the items from state
+    const { items } = this.state;
+    const unpackedItems = items.filter(item => !item.packed);
+    const packedItems = items.filter(item => item.packed);
+
+    return (
+      <div className="Application">
+        <NewItem onSubmit={this.addItem}/>
+        <CountDown />
+-        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} />
+-        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} />
++        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} onToggle={this.markAsPacked}/>
++        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} onToggle={this.markAsPacked} />
+        <button className="button full-width">Mark All As Unpacked</button>
+      </div>
+    );
+  }
+}
+
+export default Application;
+```
+
+8, extract `onToggle` from props
+
+9. Pass it down to `Item`
+
+```diff
+import React, { Component } from 'react';
+import Item from './Item';
+import Filter from './Filter';
+
+class Items extends Component {
+  state = {
+    // What state does this component have?
+  };
+
+  updateSearchTerm = searchTerm => {};
+
+  render() {
+-    const { title, items, onRemove } = this.props;
++    const { title, items, onRemove, onToggle } = this.props;
+    return (
+      <section className="Items">
+        <h2>
+          {title} ({items.length})
+        </h2>
+        <Filter searchTerm={''} onChange={this.updateSearchTerm} />
+        {items
+          .filter(item =>
+            // Hmm… this needs some work.
+            item.value.toLowerCase().includes(''.toLowerCase()),
+          )
+          .map(item => (
+            <Item
+              key={item.id}
+-              onToggle={() => {}}
++              onToggle={() => onToggle(item)}
+              onRemove={() => onRemove(item)}
+              item={item}
+            />
+          ))}
+      </section>
+    );
+  }
+}
+
+export default Items;
+```
+
+11. extract `onToggle` from props
+
+10. pass data back from `Item` to `Items` and then to `Application`.
+
+```diff
+import React, { Component } from 'react';
+import './Item.css';
+
+class Item extends Component {
+  render() {
+-    const { item, onRemove } = this.props;
++    const { item, onRemove, onToggle } = this.props;
+    return (
+      <article className="Item">
+        <label htmlFor={item.id}>
+          <input
+            type="checkbox"
+            checked={item.packed}
+-            onChange={() => {}}
++            onChange={() => onToggle(item)}
+            id={item.id}
+          />
+          {item.value}
+        </label>
+        <button className="Item-remove" onClick={() => onRemove(item)}>
           Remove
         </button>
       </article>

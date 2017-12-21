@@ -20,7 +20,6 @@ class NewItem extends Component {
 
     // Do something when a new value is submitted.
     onSubmit( {value, id: uniqueId(), packed: false} );
-    console.log(value);
 
     // Reset the state of the component.
     this.setState({ value: ''});

@@ -31,7 +31,6 @@ class Application extends Component {
   // and check off items, right?
 
   addItem = item => {
-    console.log('item, ', item)
     this.setState({
       items: [item, ...this.state.items]
     });
@@ -41,6 +40,12 @@ class Application extends Component {
     this.setState({
       items: this.state.items.filter( item => item.id !== itemToRemove.id)
     });
+  };
+
+  markAsPacked = item => {
+    const otherItems = this.state.items.filter(other => other.id !== item.id);
+    const updatedItem = { ...item, packed: !item.packed };
+    this.setState({ items: [updatedItem, ...otherItems] });
   };
 
   render() {
@@ -53,8 +58,8 @@ class Application extends Component {
       <div className="Application">
         <NewItem onSubmit={this.addItem}/>
         <CountDown />
-        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} />
-        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} />
+        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} onToggle={this.markAsPacked}/>
+        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} onToggle={this.markAsPacked} />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );
