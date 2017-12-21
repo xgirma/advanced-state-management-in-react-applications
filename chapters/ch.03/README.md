@@ -67,10 +67,14 @@ To summarize,
 
 > Once there are many components acting as middlemen, or it feels wrong for any particular component to own some state, pull that state out of the UI hierarchy and into a data container (an Ember Service, a Flux store, etc.) 
 
-
-## We have some hard problems that need solving ...
-
 Deep component trees.
-
-## Lifting State with the container pattern
  
+<img width="689" alt="screen shot 2017-12-21 at 5 28 56 am" src="https://user-images.githubusercontent.com/5876481/34257733-ea40a938-e60f-11e7-898c-5ccf2b676e19.png">
+
+This is a small application, what will happen if this tree grows to a big app?
+
+# Patterns
+These patterns are agnostics to Flux, Reudx, or Mobix ...
+
+##
+
