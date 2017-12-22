@@ -96,3 +96,6 @@ export default class WithCount extends React.Component {
 
 <img width="1068" alt="screen shot 2017-12-22 at 9 03 58 am" src="https://user-images.githubusercontent.com/5876481/34306271-2ed5a07a-e6f7-11e7-9266-88b966d53664.png">
 
+Refactored: pizza-calculator with "Render properties"
+
+<img width="1083" alt="screen shot 2017-12-22 at 9 55 28 am" src="https://user-images.githubusercontent.com/5876481/34307700-503307c4-e6fe-11e7-9f5f-12ba77222b62.png">
