@@ -76,5 +76,8 @@ This is a small application, what will happen if this tree grows to a big app?
 # Patterns
 These patterns are agnostics to Flux, Reudx, or MobiX ...
 
-##
+[01. container pattern](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/ch.03/chapters/ch.03/container.pattern)
 
+[02. ]()
+
+[03. ]()
