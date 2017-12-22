@@ -1,1 +1,1 @@
-# Renderproperties
+# Render properties
