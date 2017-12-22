@@ -189,4 +189,97 @@ Remeber how we created that `anonymous` class, owwww. it just says `_class2` tha
 The naing of component happens during babel transpilation. All we need to do is figure out what to name this. Because it is a factory we don't want to call it `withPizzaCalculations` we want to know like what the child componet is. 
 
 
-We have two choises I can store this in a variable. 
+**We have two choices:** 
+
+#### choice 1: I can store this in a variable
+
+```diff
+import React, { Component } from 'react';
+
+import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
+
+const initialState = {
+  numberOfPeople: 10,
+  slicesPerPerson: 2,
+};
+
+const WithPizzaCalculation = WrappedComponent =>  {
+-   return class extends Component {
++  const Container = class extends Component {
+
+    state = { ...initialState };
+
+    updateNumberOfPeople = event => {
+      const numberOfPeople = parseInt(event.target.value, 10);
+      this.setState({ numberOfPeople });
+    };
+
+    updateSlicesPerPerson = event => {
+      const slicesPerPerson = parseInt(event.target.value, 10);
+      this.setState({ slicesPerPerson });
+    };
+
+    reset = event => {
+      this.setState({ ...initialState });
+    };
+
+    render() {
+      const { numberOfPeople, slicesPerPerson } = this.state;
+      const numberOfPizzas = calculatePizzasNeeded(
+        numberOfPeople,
+        slicesPerPerson,
+      );
+
+      return (
+        <WrappedComponent
+          numberOfPeople={numberOfPeople}
+          slicesPerPerson={slicesPerPerson}
+          numberOfPizzas={numberOfPizzas}
+          updateNumberOfPeople={this.updateNumberOfPeople}
+          updateSlicesPerPerson={this.updateSlicesPerPerson}
+          reset={this.reset}
+        />
+      );
+    }
+  };
+  
++  Container.displayName = `WithPizzaCalculation`
+
++  return Container;
+};
+
+export default WithPizzaCalculation;
+```
+before `Container.displayName = `WithPizzaCalculation`` added.
+
+<img width="1101" alt="screen shot 2017-12-22 at 5 32 36 am" src="https://user-images.githubusercontent.com/5876481/34299776-9711fa6c-e6d9-11e7-9fe4-fd96e946e1ee.png">
+
+##### Container.displayName
+
+After `Container.displayName = `WithPizzaCalculation`` added.
+
+I do have to be a little careful, because i could have a stateless functional component which have a **.name** propertyor the one that i use which have a **.displayName** property. 
+
+`WithPizzaCalculation`  this is kind of silly, `WithCurrentUser` with whatever the sate you passing in. That way if you decide to compose morthan one of these, it becomes very clear when you see the chain. 
+
+<img width="1100" alt="screen shot 2017-12-22 at 5 39 03 am" src="https://user-images.githubusercontent.com/5876481/34299920-782036b8-e6da-11e7-9561-5e2dd65fffb6.png">
+
+
+```diff
+const WithPizzaCalculation = WrappedComponent =>  {
+  const Container = class extends Component {
+    // ...
+  };
+
+-  Container.displayName = `WithPizzaCalculation`
++  Container.displayName = `WithPizzaCalculation(${ WrappedComponent.displayName || WrappedComponent.name})`;
+  return Container;
+};
+```
+
+<img width="1102" alt="screen shot 2017-12-22 at 5 50 52 am" src="https://user-images.githubusercontent.com/5876481/34300275-2086b01a-e6dc-11e7-94dc-7e75e7daf5ac.png">
+
+:tada: :confetti_ball: :balloon: Now I get `WithPizzaCalculation(PizzaCalculator`)I know exactly what I compose. :tada: :confetti_ball: :balloon: My code works with out this, but i care about my co-workers. The most important co-worker i worried about is the future me. It is not going to be easy debugging a large application and you see `unknown`. 
+
+#### choice 2: I can store this in a variable
+

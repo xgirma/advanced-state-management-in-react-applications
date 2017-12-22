@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const WithPizzaCalculation = WrappedComponent =>  {
-  return class extends Component {
+  const Container = class extends Component {
 
     state = { ...initialState };
 
@@ -45,6 +45,9 @@ const WithPizzaCalculation = WrappedComponent =>  {
       );
     }
   };
+
+  Container.displayName = `WithPizzaCalculation(${ WrappedComponent.displayName || WrappedComponent.name})`;
+  return Container;
 };
 
 export default WithPizzaCalculation;

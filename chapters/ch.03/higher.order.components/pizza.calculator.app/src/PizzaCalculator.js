@@ -4,7 +4,7 @@ import Title from './Title';
 import Input from './Input';
 import Result from './Result';
 
-export default class Pizza extends Component {
+export default class PizzaCalculator extends Component {
   render() {
     const { numberOfPeople, slicesPerPerson, numberOfPizzas, updateNumberOfPeople, updateSlicesPerPerson,  reset } = this.props;
 
