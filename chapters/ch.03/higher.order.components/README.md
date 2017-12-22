@@ -19,4 +19,31 @@ I tend to use it :round_pushpin: "hey, I,m going to need this state all over the
 
 > Assuming this many nodes need to know about the current user, the LCA would be <app>, and every component would need to pass along currentUser to every other component. This definitely smells like Middle Man.
   
->  The solution to this problem is to pull the state out of the UI hierarchy. 
+>  The solution to this problem is to pull the state out of the UI hierarchy.
+
+You can create this HOC whenever you need that data you can simply take the `presentational` component and pass it into the `HOC`get back a wrapped `container` component with `presentation` component. 
+
+    presentational component => HOC => container component ( => presentational component)
+    
+```javascript
+const WithCount = WrappedComponent => class extends component {
+  state = { count: 0 }
+  increment = () => {
+    this.setState(state => ({ count: state.count + 1 }));
+  }
+  
+  render() {
+    <WrappedComponent
+      count={this.state.count}
+      onIncrement={this.increment}
+      {...this.props} 
+    />
+  }
+}
+```
+
+**WithCount** that is a popular pattern, with React/Redux will be called something else. I like to name is based on the state I am passing in, in this case it is my basic counter. 
+    
+It returns :round_pushpin: `anonymous class` :round_pushpin: take this component and return as a new component. Returns whatever componen is passed in **with** all of the states that it needs. 
+
+Practice: with pizz-counter app
