@@ -179,3 +179,5 @@ export default class Counter extends Component {
   }
 }
 ```
+
+Refactoring the `pizza-calculator` with `container patter is also included here ``.
