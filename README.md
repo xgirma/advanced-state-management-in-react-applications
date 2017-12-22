@@ -3,3 +3,5 @@ Advanced State Management in React Applications (Redux, MobX, sagas, etc.) by [S
 
 # Chapters
 [01. Understanding State](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.01)
+
+[02. An Uncomfortably Close Look at React Component State](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.02)
