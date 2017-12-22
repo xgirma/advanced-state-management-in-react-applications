@@ -6,7 +6,7 @@ import Result from './Result';
 
 export default class Application extends Component {
   render() {
-    const { numberOfPeople, slicesPerPerson, onUpdateNumberOfPeople, onUpdateSlicesPerPerson, numberOfPizzas, onReset } = this.props;
+    const { numberOfPeople, slicesPerPerson, numberOfPizzas, updateNumberOfPeople, updateSlicesPerPerson,  reset } = this.props;
 
     return (
       <div className="Application">
@@ -16,17 +16,17 @@ export default class Application extends Component {
           type="number"
           min={0}
           value={numberOfPeople}
-          onChange={onUpdateNumberOfPeople}
+          onChange={updateNumberOfPeople}
         />
         <Input
           label="Slices Per Person"
           type="number"
           min={0}
           value={slicesPerPerson}
-          onChange={onUpdateSlicesPerPerson}
+          onChange={updateSlicesPerPerson}
         />
         <Result amount={numberOfPizzas} />
-        <button className="full-width" onClick={onReset}>
+        <button className="full-width" onClick={reset}>
           Reset
         </button>
       </div>

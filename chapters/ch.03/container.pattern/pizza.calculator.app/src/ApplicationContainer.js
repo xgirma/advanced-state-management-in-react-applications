@@ -34,14 +34,14 @@ export default class ApplicationContainer extends Component {
     );
 
     return (
-        <Application
-          numberOfPeople={numberOfPeople}
-          slicesPerPerson={slicesPerPerson}
-          onUpdateNumberOfPeople={this.updateNumberOfPeople}
-          onUpdateSlicesPerPerson={this.updateSlicesPerPerson}
-          numberOfPizzas={numberOfPizzas}
-          onReset={this.reset}
-        />
+      <Application
+        numberOfPeople={numberOfPeople}
+        slicesPerPerson={slicesPerPerson}
+        numberOfPizzas={numberOfPizzas}
+        updateNumberOfPeople={this.updateNumberOfPeople}
+        updateSlicesPerPerson={this.updateSlicesPerPerson}
+        reset={this.reset}
+      />
     );
   }
 }
