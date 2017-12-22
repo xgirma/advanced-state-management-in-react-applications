@@ -4,7 +4,7 @@ In part two, we feel some of the complexities of passing state down and user act
 
 > React `state` is stored in a component and passed down as `props` to its children.
 
-States are like private to the component they are created. We can show `state` to others but if we need to change it, everything needs to go back again.
+Always thing about the actual `state` as private. We can show `state` to others but if we need to change it, everything needs to go back to what state came from.
 
 > Data down. Events up.
 
@@ -74,7 +74,7 @@ Deep component trees.
 This is a small application, what will happen if this tree grows to a big app?
 
 # Patterns
-These patterns are agnostics to Flux, Reudx, or Mobix ...
+These patterns are agnostics to Flux, Reudx, or MobiX ...
 
 ##
 
