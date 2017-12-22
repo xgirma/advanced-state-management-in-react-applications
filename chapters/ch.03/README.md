@@ -78,6 +78,6 @@ These patterns are agnostics to Flux, Reudx, or MobiX ...
 
 [01. container pattern](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/ch.03/chapters/ch.03/container.pattern)
 
-[02. ]()
+[02. higer order components](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/ch.03/chapters/ch.03/higher.order.components)
 
 [03. ]()

@@ -179,3 +179,108 @@ export default class Counter extends Component {
   }
 }
 ```
+
+### calculate pizza example
+We use the container pattern to refactor `pizza-calculate` app. Spearating the presentation from the state. 
+ 
+[source before](https://github.com/stevekinney/pizza-calculator/tree/master/src)
+
+[source after](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03/container.pattern/pizza.calculator.app/src)
+
+````javascript
+import React, { Component } from 'react';
+
+import Application from './Application'
+
+import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
+
+const initialState = {
+  numberOfPeople: 10,
+  slicesPerPerson: 2,
+};
+
+export default class ApplicationContainer extends Component {
+  state = { ...initialState };
+
+  updateNumberOfPeople = event => {
+    const numberOfPeople = parseInt(event.target.value, 10);
+    this.setState({ numberOfPeople });
+  };
+
+  updateSlicesPerPerson = event => {
+    const slicesPerPerson = parseInt(event.target.value, 10);
+    this.setState({ slicesPerPerson });
+  };
+
+  reset = event => {
+    this.setState({ ...initialState });
+  };
+
+  render() {
+    const { numberOfPeople, slicesPerPerson } = this.state;
+    const numberOfPizzas = calculatePizzasNeeded(
+      numberOfPeople,
+      slicesPerPerson,
+    );
+
+    return (
+        <Application
+          numberOfPeople={numberOfPeople}
+          slicesPerPerson={slicesPerPerson}
+          numberOfPizzas={numberOfPizzas}
+          updateNumberOfPeople={this.updateNumberOfPeople}
+          updateSlicesPerPerson={this.updateSlicesPerPerson}
+          reset={this.reset}
+        />
+    );
+  }
+}
+````
+
+```javascript
+import React, { Component } from 'react';
+
+import Title from './Title';
+import Input from './Input';
+import Result from './Result';
+
+export default class Application extends Component {
+  render() {
+    const { numberOfPeople, slicesPerPerson, numberOfPizzas, updateNumberOfPeople, updateSlicesPerPerson,  reset } = this.props;
+
+    return (
+      <div className="Application">
+        <Title />
+        <Input
+          label="Number of Guests"
+          type="number"
+          min={0}
+          value={numberOfPeople}
+          onChange={updateNumberOfPeople}
+        />
+        <Input
+          label="Slices Per Person"
+          type="number"
+          min={0}
+          value={slicesPerPerson}
+          onChange={updateSlicesPerPerson}
+        />
+        <Result amount={numberOfPizzas} />
+        <button className="full-width" onClick={reset}>
+          Reset
+        </button>
+      </div>
+    );
+  }
+}
+```
+
+:no_good: I am not gaining that much :no_good: 
+
+Imagine we are pulling this information from a server. It will be really hard to test that. In order to test a component that show the UI based on what it gets from a server, you hav eto mock a bunch of AJAX requests. `if tetsing is hard you probably are not going to do it`.
+
+So this allows you to pass in the `object` you want and see that the component works. 
+
+But what happens if i have `with user date`, I want to use it in multiple places of my application, with different presentational component, **this pattern does not sound correct**.  
+
+That takes us to [higer order components](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/ch.03/chapters/ch.03/higer.order.components)
