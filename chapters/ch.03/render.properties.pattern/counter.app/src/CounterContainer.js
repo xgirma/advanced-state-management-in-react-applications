@@ -1,36 +1,21 @@
-import React from 'react'
+import React, { Component } from 'react'
+
 import Counter from './Counter'
+import WithCount from './WithCount'
 
-export default class WithCount extends React.Component {
-  state = { count : 10 };
-
-  handleIncrement = () => {
-    this.setState({
-      count : this.state.count + 1
-    })
-  };
-
-  handleDecrement = () => {
-    this.setState({
-      count : this.state.count - 1
-    })
-  };
-
-  handleReset = () => {
-    this.setState ({
-      count : 0
-    })
-  };
-
-  render() {
-    const { count } = this.state;
+export default class CounterContainer extends Component {
+  render(){
     return (
-      <Counter
-        count={count}
-        onIncrement={this.handleIncrement}
-        onDecrement={this.handleDecrement}
-        onReset={this.handleReset}
-      />
-    );
+      <WithCount render={
+        (count, handleIncrement, handleDecrement, handleReset) => (
+          <Counter
+            count={count}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            onReset={handleReset}
+          />
+        )
+      }/>
+    )
   }
 }
