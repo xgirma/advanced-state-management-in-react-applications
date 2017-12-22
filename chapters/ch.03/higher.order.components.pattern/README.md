@@ -191,12 +191,13 @@ The naing of component happens during babel transpilation. All we need to do is 
 
 **We have two choices:** 
 
-#### choice 1: I can store this in a variable
+#### choice 1: on the class itself
+I can store this in a variable:
 
 ```diff
 import React, { Component } from 'react';
 
-import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
+import calculatePizzasNeeded from './lib/calculate-pizzas-needed'; 
 
 const initialState = {
   numberOfPeople: 10,
@@ -204,7 +205,7 @@ const initialState = {
 };
 
 const WithPizzaCalculation = WrappedComponent =>  {
--   return class extends Component {
+-  return class extends Component {
 +  const Container = class extends Component {
 
     state = { ...initialState };
@@ -281,5 +282,77 @@ const WithPizzaCalculation = WrappedComponent =>  {
 
 :tada: :confetti_ball: :balloon: Now I get `WithPizzaCalculation(PizzaCalculator`)I know exactly what I compose. :tada: :confetti_ball: :balloon: My code works with out this, but i care about my co-workers. The most important co-worker i worried about is the future me. It is not going to be easy debugging a large application and you see `unknown`. 
 
-#### choice 2: I can store this in a variable
+#### choice 2: on the instances of the class
 
+`updateNumberOfPeople`, `updateSlicesPerPerson` ... are methods on the instances of the class of each individual component i create.  
+
+```javascript
+static displayName = `WithPizzaCalculation(${ WrappedComponent.displayName || WrappedComponent.name})`;
+```
+
+That should give me the same effect. It is a nice short hand. Makes it very clear. 
+
+```diff
+import React, { Component } from 'react';
+
+import calculatePizzasNeeded from './lib/calculate-pizzas-needed';
+
+const initialState = {
+  numberOfPeople: 10,
+  slicesPerPerson: 2,
+};
+
+const WithPizzaCalculation = WrappedComponent =>  {
+-  const Container = class extends Component {
++  return class extends Component {  
++    static displayName = `WithPizzaCalculation(${ WrappedComponent.displayName || WrappedComponent.name})`;
+
+    state = { ...initialState };
+
+    updateNumberOfPeople = event => {
+      const numberOfPeople = parseInt(event.target.value, 10);
+      this.setState({ numberOfPeople });
+    };
+
+    updateSlicesPerPerson = event => {
+      const slicesPerPerson = parseInt(event.target.value, 10);
+      this.setState({ slicesPerPerson });
+    };
+
+    reset = event => {
+      this.setState({ ...initialState });
+    };
+
+    render() {
+      const { numberOfPeople, slicesPerPerson } = this.state;
+      const numberOfPizzas = calculatePizzasNeeded(
+        numberOfPeople,
+        slicesPerPerson,
+      );
+
+      return (
+        <WrappedComponent
+          numberOfPeople={numberOfPeople}
+          slicesPerPerson={slicesPerPerson}
+          numberOfPizzas={numberOfPizzas}
+          updateNumberOfPeople={this.updateNumberOfPeople}
+          updateSlicesPerPerson={this.updateSlicesPerPerson}
+          reset={this.reset}
+        />
+      );
+    }
+  };
+-  Container.displayName = `WithPizzaCalculation(${ WrappedComponent.displayName || WrappedComponent.name})`;
+-    return Container;
+};
+
+export default WithPizzaCalculation;
+```
+
+<img width="1103" alt="screen shot 2017-12-22 at 6 06 17 am" src="https://user-images.githubusercontent.com/5876481/34300731-4441f9f4-e6de-11e7-9118-945dec04bfcc.png">
+
+I think the main problem with the `container` pattern is that is kind of `black box`. It is called whatever container, you can dig into the code to see, but remeber `thinking in React` hey  `keep it explicit, makes it very clear. Even if it is tedious to write. 
+
+We need to strike the balance, between composing different kinds of components with different state with out passing around states all the time BUT also being very explicit about where that state is comming from. 
+
+This takes us to the [Render Properties]() pattern.
