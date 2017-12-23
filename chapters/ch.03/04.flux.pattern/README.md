@@ -5,7 +5,7 @@ We need dispatcher, action, and store. And we need to wire them together.
         2. Action
         3. Store
         
-        npm install flux events
+        npm install flux
         import { Dispatcher } from 'flux';
         import EventEmitter from 'events';
         
