@@ -132,18 +132,18 @@ import Items from './Items';
 import './Application.css';
 
 - const defaultState = [
-    { value: 'Pants', id: uniqueId(), packed: false },
-    { value: 'Jacket', id: uniqueId(), packed: false },
-    { value: 'iPhone Charger', id: uniqueId(), packed: false },
-    { value: 'MacBook', id: uniqueId(), packed: false },
-    { value: 'Sleeping Pills', id: uniqueId(), packed: true },
-    { value: 'Underwear', id: uniqueId(), packed: false },
-    { value: 'Hat', id: uniqueId(), packed: false },
-    { value: 'T-Shirts', id: uniqueId(), packed: false },
-    { value: 'Belt', id: uniqueId(), packed: false },
-    { value: 'Passport', id: uniqueId(), packed: true },
-    { value: 'Sandwich', id: uniqueId(), packed: true },
-  ];
+-    { value: 'Pants', id: uniqueId(), packed: false },
+-    { value: 'Jacket', id: uniqueId(), packed: false },
+-    { value: 'iPhone Charger', id: uniqueId(), packed: false },
+-    { value: 'MacBook', id: uniqueId(), packed: false },
+-    { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+-    { value: 'Underwear', id: uniqueId(), packed: false },
+-    { value: 'Hat', id: uniqueId(), packed: false },
+-    { value: 'T-Shirts', id: uniqueId(), packed: false },
+-    { value: 'Belt', id: uniqueId(), packed: false },
+-    { value: 'Passport', id: uniqueId(), packed: true },
+-    { value: 'Sandwich', id: uniqueId(), packed: true },
+-  ];
 
 + import ItemStore from '../ItemStore';
 
@@ -321,8 +321,8 @@ class Items extends Component {
           .map(item => (
             <Item
               key={item.id}
--              onToggle={() => onToggle(item)}
--              onRemove={() => onRemove(item)}
+-             onToggle={() => onToggle(item)}
+-             onRemove={() => onRemove(item)}
               item={item}
             />
           ))}
