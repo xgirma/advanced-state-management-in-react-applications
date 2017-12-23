@@ -1,4 +1,4 @@
-# Higher order components
+# Pattern 02: Higher order components
 
 > Take a component as input and return a warped component.
 

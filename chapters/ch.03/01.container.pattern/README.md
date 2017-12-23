@@ -1,4 +1,4 @@
-# Lifting state with the container pattern
+# Pattern 01: Lifting state with the container pattern
 
 > Draws a line between state and presentation. 
 

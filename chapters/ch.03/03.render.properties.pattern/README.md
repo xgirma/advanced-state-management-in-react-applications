@@ -1,4 +1,4 @@
-# Render properties
+# Pattern 03: Render properties pattern
 Yet another pattern to separate your `state` from your `presentation`. It circumvent the problem we have seen before. Things are not `black box` anymore. <Counter/> container was not clear when you stare at that code.  
 
 The Render properties allows you to see very clearly what the actual hierarchy is. it give you the advantage of the container pattern and the HOC. 

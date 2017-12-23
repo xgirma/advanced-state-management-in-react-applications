@@ -1,4 +1,4 @@
-# Flux
+# Pattern 04: Flux pattern
 We need dispatcher, action, and store. And we need to wire them together. 
 
         1. Dispatcher
