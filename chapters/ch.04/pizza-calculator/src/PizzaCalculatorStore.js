@@ -8,7 +8,7 @@ const initialState = {
 
 let calculator = {...initialState};
 
-class PizzaCalculatorStore {
+class PizzaCalculatorStore extends EventEmitter {
   constructor() {
     super();
 
@@ -29,6 +29,10 @@ class PizzaCalculatorStore {
       }
     });
   }
+
+  getState() {
+    return calculator;
+  }
 }
 
-export default PizzaCalculatorStore();
+export default new PizzaCalculatorStore();

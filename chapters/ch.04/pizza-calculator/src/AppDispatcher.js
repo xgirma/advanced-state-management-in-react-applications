@@ -1,3 +1,3 @@
 import { Dispatcher } from 'flux';
 
-export const new Dispatcher();
+export default new Dispatcher();

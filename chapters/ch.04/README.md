@@ -220,7 +220,7 @@ export default PizzaCalculatorStore();
 `this.emit` comes from the `EventEmitter`. We inherited few methods from it. The only thing we care about `EventEmitter` is `on, off` and `emit`. On adds event listener. Off takes it off. And emit tells everyone tha we add an event listener. 
 
 ### using a container patter with flux
-We are not going to manage the state anymore. Who is going to manage the state for us? Flux. Hence, no `setState`.
+**We are not going to manage the state anymore**. Who is going to manage the state for us? Flux. Hence, no `setState`.
 
 ```diff
 import React, { Component } from 'react';
@@ -246,9 +246,9 @@ export default class PizzaContainer extends Component {
    const slicesPerPerson = parseInt(event.target.value, 10);
   };
   
--  reset = event => {
--    this.setState({ ...initialState });
--  };
+- reset = event => {
+-   this.setState({ ...initialState });
+- };
 
   render() {
 
