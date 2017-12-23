@@ -10,8 +10,8 @@ Instructor repos used:
 [03. pizza-calculator](https://github.com/stevekinney/pizza-calculator)
 
 # Chapters
-[01. Understanding State](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.01)
+[01. Understanding State](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.01)
 
-[02. An Uncomfortably Close Look at React Component State](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.02)
+[02. An Uncomfortably Close Look at React Component State](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.02)
 
-[03. State Architecture Patterns](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03)
+[03. State Architecture Patterns](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03)
