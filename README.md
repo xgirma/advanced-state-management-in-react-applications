@@ -1,7 +1,7 @@
-# AdvancedStateManagementInReactApplications
+# Advanced State Management In React Applications
 Advanced State Management in React Applications (Redux, MobX, sagas, etc.) by [Steve Kinney](https://frontendmasters.com/workshops/advanced-state-management-in-react/)
 
-Instructor repos used: 
+Steve's repos used in the workshop: 
 
 [01. basic-counter](https://github.com/stevekinney/basic-counter)
 
