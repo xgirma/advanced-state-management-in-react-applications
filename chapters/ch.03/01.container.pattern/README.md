@@ -180,7 +180,6 @@ export default class Counter extends Component {
 }
 ```
 
-<<<<<<< HEAD
 ### calculate pizza example
 We use the container pattern to refactor `pizza-calculate` app. Spearating the presentation from the state. 
  
@@ -284,7 +283,4 @@ So this allows you to pass in the `object` you want and see that the component w
 
 But what happens if i have `with user date`, I want to use it in multiple places of my application, with different presentational component, **this pattern does not sound correct**.  
 
-That takes us to [higer order components](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/ch.03/chapters/ch.03/higer.order.components)
-=======
-Refactoring the `pizza-calculator` with `container patter is also included here ``.
->>>>>>> master
+NEXT: [02. higer order components](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/02.higher.order.components.pattern)

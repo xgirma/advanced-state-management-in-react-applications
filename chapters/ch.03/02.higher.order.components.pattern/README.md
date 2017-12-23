@@ -355,4 +355,4 @@ I think the main problem with the `container` pattern is that is kind of `black 
 
 We need to strike the balance, between composing different kinds of components with different state with out passing around states all the time BUT also being very explicit about where that state is comming from. 
 
-This takes us to the [Render Properties](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03/render.properties.pattern) pattern.
+NEXT: [03. render properties](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/03.render.properties.pattern)
