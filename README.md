@@ -14,4 +14,4 @@ Instructor repos used:
 
 [02. An Uncomfortably Close Look at React Component State](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.02)
 
-[02. State Architecture Patterns](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03)
+[03. State Architecture Patterns](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03)
