@@ -278,3 +278,94 @@ export default class PizzaContainer extends Component {
   }
 }
 ```
+TODO: add more note
+
+### Confusing chart 
+
+<img width="1116" alt="flux-diagram-white-background" src="https://user-images.githubusercontent.com/5876481/34320915-f8e3d3d0-e7b7-11e7-9058-9145904810d4.png">
+
+### Scientific chart: step by step
+[1.] This is a **dispatcher**. this is the first part in the circle.
+
+[1.1.] make a dispatcher.  
+ ```javascript
+const AppDispatcher = new Dispatcher();
+```
+[1.2.] action creator creates action and dispatches an object
+```javascript
+export const addItem = value => {
+  AppDispatcher.dispatch({
+    type: 'ADD_NEW_ITEM',
+    item: {
+      id: uniqueId(),
+      packed: false,
+      value,
+    },
+  });
+};
+```
+<img width="673" alt="screen shot 2017-12-23 at 8 11 06 am" src="https://user-images.githubusercontent.com/5876481/34320957-de82dd82-e7b8-11e7-893a-f0ce66cc37a8.png">
+
+2. You can have multiple **stores**. they are objects.  
+<img width="665" alt="screen shot 2017-12-23 at 8 12 29 am" src="https://user-images.githubusercontent.com/5876481/34320964-0f0baeac-e7b9-11e7-952f-9944ab2a94c2.png">
+
+3. To hook object with dispatcher you need to **register** them with the dispatcher. Hey I am a store, i care about what you say, please let me know when you receive actions can you let me know. Dispatchers like i tell everyone everything I don't keep secret. I want to subscribe to your news letter.
+
+```javascript
+class ItemStore extends EventEmmitter {
+  constructor() {
+    super();
+    AppDispatcher.register(action => {
+      if (action.type === 'UPDATE_NUMBER_OF_PEOPLE') { // ..}
+      if (action.type === 'UPDATE_SLICES_PER_PERSON') { //...}
+    });
+  }
+}
+```
+
+<img width="668" alt="screen shot 2017-12-23 at 8 13 48 am" src="https://user-images.githubusercontent.com/5876481/34320976-3cb395cc-e7b9-11e7-96b6-0327c19941d5.png">
+
+Store contains your **models**. It register itself with the dispatcher and receives actions. 
+
+action(noun): The minimal amount of information necessary to represent the change that should occur. 
+
+Action is the only way to initiate a change to the store. The simplest possible action 
+
+```javascript
+{ type: 'INCREMENT'}
+```
+
+Action can have additional information. 
+
+```javascript
+{ type: 'INCREMENT', ampunt: 5}
+```
+
+Whenever it does something based on an action, it emits a change event. 
+
+4.We start getting from the **actions** from dispatcher 
+<img width="662" alt="screen shot 2017-12-23 at 8 17 27 am" src="https://user-images.githubusercontent.com/5876481/34320997-bf099562-e7b9-11e7-9285-fd64a876ef0e.png">
+
+5. We have all these presentational components.  
+<img width="661" alt="screen shot 2017-12-23 at 8 19 10 am" src="https://user-images.githubusercontent.com/5876481/34321008-fcb2cce4-e7b9-11e7-8fad-3711beeba49c.png">
+
+6. **View wants to listen to the store.**
+<img width="662" alt="screen shot 2017-12-23 at 8 21 19 am" src="https://user-images.githubusercontent.com/5876481/34321029-4b5abcbc-e7ba-11e7-9189-ff92b3f963b9.png">
+
+7. **store emit those change events** change, here is the new thing ... What is the new state in the world, view get that through props. The UI changes.  
+<img width="670" alt="screen shot 2017-12-23 at 8 22 35 am" src="https://user-images.githubusercontent.com/5876481/34321036-76af0d5a-e7ba-11e7-8cf6-9792ed1d57d7.png">
+
+8. **The user**, touches or input stuff, and click event, for instance, even triggered. 
+<img width="665" alt="screen shot 2017-12-23 at 8 24 10 am" src="https://user-images.githubusercontent.com/5876481/34321048-ae864d60-e7ba-11e7-85bb-012d0aea215e.png">
+
+9. The event got sent to the `action creator`. where is the action creator? in the dispatcher. Here we make the circle. 
+<img width="662" alt="screen shot 2017-12-23 at 8 26 33 am" src="https://user-images.githubusercontent.com/5876481/34321060-089dd110-e7bb-11e7-8a35-19821a4a57da.png">
+
+Thinking in React, what kind of data flow, do we have in React? uni-directional. 
+
+Data flow chart: 
+
+<img width="665" alt="screen shot 2017-12-23 at 8 28 24 am" src="https://user-images.githubusercontent.com/5876481/34321074-47d541b0-e7bb-11e7-8f44-9701347e662c.png">
+
+By using Flux, we keep that uni-directional data flow, but we just removed it from the component tree. We can keep this anywhere, because it flows outside of your component hierarchy. 
+ 
