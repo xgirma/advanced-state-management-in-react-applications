@@ -14,8 +14,8 @@ class Items extends Component {
   };
 
   render() {
-    const { title, items, onRemove, onToggle } = this.props;
-    const { searchTerm } = this.state
+    const { title, items } = this.props;
+    const { searchTerm } = this.state;
     return (
       <section className="Items">
         <h2>
@@ -30,8 +30,6 @@ class Items extends Component {
           .map(item => (
             <Item
               key={item.id}
-              onToggle={() => onToggle(item)}
-              onRemove={() => onRemove(item)}
               item={item}
             />
           ))}
