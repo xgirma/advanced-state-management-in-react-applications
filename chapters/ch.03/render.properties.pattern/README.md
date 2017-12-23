@@ -1,5 +1,7 @@
 # Render properties
+Yet another pattern to separate your `state` from your `presentation`. It circumvent the problem we have seen before. Things are not `black box` anymore. <Counter/> container was not clear when you stare at that code.  
 
+The Render properties allows you to see very clearly what the actual hierarchy is. it give you the advantage of the container pattern and the HOC. 
 
 ```javascript
 import React from 'react';
@@ -34,7 +36,7 @@ export default class CounterContainer extends Component {
   }
 }
 ```
-
+You have a property called `render` It would be pass in as `props`. We can see the hierarchy. It is getting all the props, from the `WithCount` component but at the same time the hierarchy is very clear. 
 ```javascript
 import React, { Component } from 'react'
 
@@ -52,7 +54,7 @@ export default class Counter extends Component {
   }
 }
 ```
-
+It got the same state as before. This component takes a `property called render` which is going to be a function. Right it calls that function. 
 ```javascript
 import React from 'react'
 

@@ -21,9 +21,9 @@ I tend to use it :round_pushpin: "hey, I,m going to need this state all over the
   
 >  The solution to this problem is to pull the state out of the UI hierarchy.
 
-You can create this HOC whenever you need that data you can simply take the `presentational` component and pass it into the `HOC`get back a wrapped `container` component with `presentation` component. 
+You can create this higher order component whenever you need that data you can simply take the `presentational` component and pass it into the `higher order component`get back a wrapped `container` component with `presentation` component. 
 
-    presentational component => HOC => container component ( => presentational component)
+    presentational component => higher order component => container component ( => presentational component)
     
 ```javascript
 const WithCount = WrappedComponent => class extends component {
@@ -47,7 +47,7 @@ const WithCount = WrappedComponent => class extends component {
 It returns :round_pushpin: `anonymous class` :round_pushpin: take this component and return as a new component. Returns whatever componen is passed in **with** all of the states that it needs. 
 
 **Practice: with pizz-counter app**
-The real power of this pattern, composing new component by taking some stateful component that made to fetch API, work with local storage, any kind of state you want to use in multiple places use HOC. This is the cost common pattern i use when i am pulling data drom a remote sources. Even when I am using browser API. 
+The real power of this pattern, composing new component by taking some stateful component that made to fetch API, work with local storage, any kind of state you want to use in multiple places use higher order component. This is the cost common pattern i use when i am pulling data drom a remote sources. Even when I am using browser API. 
 
 There is not a lot of changes. We do know that it is a function. 
 
@@ -355,4 +355,4 @@ I think the main problem with the `container` pattern is that is kind of `black 
 
 We need to strike the balance, between composing different kinds of components with different state with out passing around states all the time BUT also being very explicit about where that state is comming from. 
 
-This takes us to the [Render Properties]() pattern.
+This takes us to the [Render Properties](https://github.com/xgirma/AdvancedStateManagementInReactApplications/tree/master/chapters/ch.03/render.properties.pattern) pattern.
