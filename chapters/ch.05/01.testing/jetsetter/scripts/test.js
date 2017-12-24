@@ -12,6 +12,8 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
+process.env.NODE_ENV = 'development';
+
 // Ensure environment variables are read.
 require('../config/env');
 
@@ -24,4 +26,4 @@ if (!process.env.CI && argv.indexOf('--coverage') < 0) {
 }
 
 
-jest.run(argv);
+jest.run('test');

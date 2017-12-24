@@ -1,20 +1,8 @@
 import * as constants from '../constants';
 
-import {
-  addNewItem,
-  toggleItem,
-  removeItem,
-  markAllAsUnpacked
-} from '../actions/items-actions';
-
-import {
-  updateUnpackedItemsFilter,
-  updatePackedItemsFilter,
-} from '../actions/filter-actions';
-
-import {
-  updateNewItemValue,
-} from '../actions/new-item-actions'
+import { addNewItem, toggleItem, removeItem, markAllAsUnpacked, } from '../actions/items-actions';
+import { updateUnpackedItemsFilter, updatePackedItemsFilter, } from '../actions/filter-actions';
+import { updateNewItemValue, } from '../actions/new-item-actions'
 
 describe('Item Actions', () => {
 
