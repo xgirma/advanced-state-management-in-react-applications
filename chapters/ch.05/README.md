@@ -12,16 +12,15 @@ Redux takes a different approach. The whole state tree of your application is ke
 Scientific chart: React is just a JavaScript objects and functions.
 
 ### 1. Reducer
-<img width="326" alt="screen shot 2017-12-23 at 9 13 13 pm" src="https://user-images.githubusercontent.com/5876481/34324390-319ecd38-e826-11e7-8d07-5727c50aee89.png">
+<img width="426" alt="screen shot 2017-12-23 at 9 13 13 pm" src="https://user-images.githubusercontent.com/5876481/34324390-319ecd38-e826-11e7-8d07-5727c50aee89.png">
 
 Reduce is a function and takes two arguments. `action` and `current state`.
 
-<img width="323" alt="screen shot 2017-12-23 at 9 16 18 pm" src="https://user-images.githubusercontent.com/5876481/34324407-8f3308a6-e826-11e7-9fbb-55b43038e4e0.png">
+<img width="423" alt="screen shot 2017-12-23 at 9 16 18 pm" src="https://user-images.githubusercontent.com/5876481/34324407-8f3308a6-e826-11e7-9fbb-55b43038e4e0.png">
 
-It takes some kind of action. That action is just a JavaScript object. It has a `type` property. 
+It takes some kind of action. That action is just a JavaScript object. It has a `type` property. And it take the current state of your application.
 
-And it take the current state of your application.
-<img width="325" alt="screen shot 2017-12-23 at 9 19 30 pm" src="https://user-images.githubusercontent.com/5876481/34324418-ff8945de-e826-11e7-9cc2-a85d466a450b.png">
+<img width="425" alt="screen shot 2017-12-23 at 9 19 30 pm" src="https://user-images.githubusercontent.com/5876481/34324418-ff8945de-e826-11e7-9cc2-a85d466a450b.png">
 
         action + current state = reducer = new state
         
@@ -29,7 +28,7 @@ We use `action creators`, but we could create object by hand. Writing action by 
 
 Ideally you create a state to do something. display it to the user.
 
-<img width="324" alt="screen shot 2017-12-23 at 9 30 22 pm" src="https://user-images.githubusercontent.com/5876481/34324453-837d8642-e828-11e7-919b-b82ce1376805.png">
+<img width="424" alt="screen shot 2017-12-23 at 9 30 22 pm" src="https://user-images.githubusercontent.com/5876481/34324453-837d8642-e828-11e7-919b-b82ce1376805.png">
 
 To a view, who have event listener, like ow, I am clicked, I am changed ... Those in-turn will create action triggers. Again we have archived the React uni-directional data flow principle.
 
