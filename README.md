@@ -15,3 +15,7 @@ Steve's repos used in the workshop:
 [02. An Uncomfortably Close Look at React Component State](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.02)
 
 [03. State Architecture Patterns](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03)
+
+[04. The Flux Pattern](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.04)
+
+[05. Redux](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.05)
