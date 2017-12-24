@@ -81,5 +81,3 @@ These patterns are agnostics to Flux, Reudx, or MobiX ...
 [02. higer order components](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/02.higher.order.components.pattern)
 
 [03. render properties](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/03.render.properties.pattern)
-
-[04. flux patterns](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/04.flux.pattern)

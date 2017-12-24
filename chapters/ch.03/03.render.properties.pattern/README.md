@@ -101,5 +101,3 @@ export default class WithCount extends React.Component {
 Refactored: pizza-calculator with "Render properties"
 
 <img width="1083" alt="screen shot 2017-12-22 at 9 55 28 am" src="https://user-images.githubusercontent.com/5876481/34307700-503307c4-e6fe-11e7-9f5f-12ba77222b62.png">
-
-NEXT: [04. flux patterns](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.03/04.flux.pattern)
