@@ -198,9 +198,414 @@ const unsubscribe = store.subscribe(subscriber);
 
 store.dispatch(addAction); // SUBSCRIPTION!!! 5
 ```
-    React have one tree, one reducer. 
+Let us call it again, o look the current state is now 9 !!!
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,} from 'redux'
+
+const initState = { result: 1 };
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+const calculateReducer = ( state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+};
+
+const store = createStore(calculateReducer);
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().result);
+};
+
+const unsubscribe = store.subscribe(subscriber);
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5
+store.dispatch(addAction); // SUBSCRIPTION!!! 9
+```
+So the store is keeping track of the state of the world. Now we have a way to manage state, and manipulate state. 
+
+What is if we unsubscribe after we call it once, but call twice
+
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,} from 'redux'
+
+const initState = { result: 1 };
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+const calculateReducer = ( state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+};
+
+const store = createStore(calculateReducer);
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().result);
+};
+
+const unsubscribe = store.subscribe(subscriber);
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5
+
+unsubscribe();
+
+store.dispatch(addAction);
+``` 
+
+React ONLY have one tree, one reducer. 
 ## combineReducer
-One tree for the entire app. Grate. App grow. We can only  have one reducer, but we can combine them. 
+One tree for the entire app. Grate. App grow. We can only  have one reducer, you don't want your reducer to grow and grow and grow. Ideally likely be able to split it out. Unfortunately React only have the idea of one reducer. 
+
+We can only have one reducer, but what we could do is, we could have small reducers and when we setup a store we could theoretically combine them together into one.  
+
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux'
+
+const initState = { result: 1} ;
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+let calculateReducer = (state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  return state;
+};
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
+  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+};
+
+const initError = {message: ''};
+
+let errorMessageReducer = (state = initError, action) => {
+  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
+  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
+  return state;
+};
+
+const store = createStore(
+  combineReducers({
+    calculator: calculateReducer,
+    error: errorMessageReducer,
+  })
+);
+
+const unsubscribe = store.subscribe(subscriber);
+
+const init = store.getState();
+console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
+store.dispatch(addAction); // SUBSCRIPTION!!! 9 RRROR SUBSCRIPTION
+store.dispatch(addAction); // SUBSCRIPTION!!! 13 RRROR SUBSCRIPTION
+
+
+store.dispatch({
+  type: "SET_ERROR_MESSAGE",
+  message: "This is going to blow your mind."
+});
+
+// SUBSCRIPTION!!! 13 RRROR SUBSCRIPTION This is going to blow your mind.
+
+unsubscribe();
+```
+
+We are now with full Redux setup.
+
+## Action creators  
+Easy
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux'
+
+const initState = { result: 1} ;
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+let calculateReducer = (state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  return state;
+};
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
+  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+};
+
+const initError = {message: ''};
+
+let errorMessageReducer = (state = initError, action) => {
+  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
+  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
+  return state;
+};
+
+const store = createStore(
+  combineReducers({
+    calculator: calculateReducer,
+    error: errorMessageReducer,
+  })
+);
+
+const unsubscribe = store.subscribe(subscriber);
+
+const init = store.getState();
+console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
+
+store.dispatch({
+  type: "SET_ERROR_MESSAGE",
+  message: "This is going to blow your mind."
+});
+
+// SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION This is going to blow your mind.
+
+// action creator
+
+const add = (value ) => {return { type: 'ADD', value }};
+
+store.dispatch(add(40));
+
+// SUBSCRIPTION!!! 45 RRROR SUBSCRIPTION This is going to blow your mind.
+```
+
+## bindActionCreators 
+You could write this function in about one line. 
+
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux'
+
+const initState = { result: 1} ;
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+let calculateReducer = (state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  return state;
+};
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
+  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+};
+
+const initError = {message: ''};
+
+let errorMessageReducer = (state = initError, action) => {
+  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
+  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
+  return state;
+};
+
+const store = createStore(
+  combineReducers({
+    calculator: calculateReducer,
+    error: errorMessageReducer,
+  })
+);
+
+const unsubscribe = store.subscribe(subscriber);
+
+const init = store.getState();
+console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
+
+store.dispatch({
+  type: "SET_ERROR_MESSAGE",
+  message: "This is going to blow your mind."
+});
+
+// SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION This is going to blow your mind.
+
+// action creator
+
+const add = (value ) => {return { type: 'ADD', value }};
+
+store.dispatch(add(40));
+
+// SUBSCRIPTION!!! 45 RRROR SUBSCRIPTION This is going to blow your mind.
+
+
+const setError = (message) => ({ type: "SET_ERROR_MESSAGE", message });
+const clearError = (message) => ({ type: "CLEAR_ERROR_MESSAGE", message });
+
+// custom singular bind
+const bindActionCreator = (action, dispatch) => (...args) => dispatch(action( ...args));
+
+const addValue = bindActionCreator(add, store.dispatch);
+
+addValue(12);
+
+// SUBSCRIPTION!!! 57 RRROR SUBSCRIPTION This is going to blow your mind.
+```
+
+What is this `bindActionCreators`?
+
+## applyMiddleware
+let us add more loggers: 
+
+```javascript
+import {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore,
+} from 'redux'
+
+const initState = { result: 1} ;
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+let calculateReducer = (state = initState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  return state;
+};
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
+  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+};
+
+const initError = {message: ''};
+
+let errorMessageReducer = (state = initError, action) => {
+  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
+  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
+  return state;
+};
+
+
+// Middleware
+const logger = ({ getState}) => { return next => action => {
+  console.log('MIDDLEWARE: ', getState(), action );
+  const value = next(action);
+  console.log({value});
+
+}};
+
+
+const store = createStore(
+  combineReducers({
+    calculator: calculateReducer,
+    error: errorMessageReducer,
+  }), {}, applyMiddleware(logger)
+);
+
+
+
+const unsubscribe = store.subscribe(subscriber);
+
+const init = store.getState();
+console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
+
+store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
+
+store.dispatch({
+  type: "SET_ERROR_MESSAGE",
+  message: "This is going to blow your mind."
+});
+
+// SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION This is going to blow your mind.
+
+// action creator
+
+const add = (value ) => {return { type: 'ADD', value }};
+
+store.dispatch(add(40));
+
+// SUBSCRIPTION!!! 45 RRROR SUBSCRIPTION This is going to blow your mind.
+
+
+const setError = (message) => ({ type: "SET_ERROR_MESSAGE", message });
+const clearError = (message) => ({ type: "CLEAR_ERROR_MESSAGE", message });
+
+// custom singular bind
+const bindActionCreator = (action, dispatch) => (...args) => dispatch(action( ...args));
+
+const addValue = bindActionCreator(add, store.dispatch);
+
+addValue(12);
+
+// SUBSCRIPTION!!! 57 RRROR SUBSCRIPTION This is going to blow your mind.
+```
+<img width="716" alt="screen shot 2017-12-24 at 4 07 09 am" src="https://user-images.githubusercontent.com/5876481/34326414-3241835e-e860-11e7-96e6-be72452c130e.png">
 
 
 
@@ -208,5 +613,5 @@ One tree for the entire app. Grate. App grow. We can only  have one reducer, but
 To use babel and node in the command line
 
         npm i babael-cli
-        npm babel-node script.js
+        npx babel-node script.js
         
