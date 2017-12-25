@@ -1,5 +1,6 @@
 import { UPDATE_NEW_ITEM_VALUE } from '../constants';
 
-export const updateNewItemValue = () => ({
-  type: 'ADD_NEW_ITEMM',
+export const updateNewItemValue = (value) => ({
+  type: 'UPDATE_NEW_ITEM_VALUE',
+  value
 });

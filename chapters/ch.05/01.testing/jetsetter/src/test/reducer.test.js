@@ -1,18 +1,6 @@
-import {
-  addNewItem,
-  toggleItem,
-  removeItem,
-  markAllAsUnpacked
-} from '../actions/items-actions';
-
-import {
-  updateUnpackedItemsFilter,
-  updatePackedItemsFilter,
-} from '../actions/filter-actions';
-
-import {
-  updateNewItemValue,
-} from '../actions/new-item-actions'
+import { addNewItem, toggleItem, removeItem, markAllAsUnpacked, } from '../actions/items-actions';
+import { updateUnpackedItemsFilter, updatePackedItemsFilter, } from '../actions/filter-actions';
+import { updateNewItemValue, } from '../actions/new-item-actions'
 
 import reducer from '../reducers';
 import initialState from '../store/initial-state';
@@ -22,7 +10,7 @@ describe('Combined Reducer', () => {
     expect(reducer(initialState, {})).toBe(initialState);
   });
 
-  xit('addNewItem', () => {
+  it('addNewItem', () => {
     const value = 'item name';
     const action = addNewItem(value);
     const item = action.item;
@@ -31,7 +19,7 @@ describe('Combined Reducer', () => {
     expect(state.items).toContain(item);
   });
 
-  xit('removeItem', () => {
+  it('removeItem', () => {
     const [ item ] = initialState.items;
     const action = removeItem(item.id);
     const state = reducer(initialState, action);
@@ -39,7 +27,7 @@ describe('Combined Reducer', () => {
     expect(state.items).not.toContain(item);
   });
 
-  xit('toggleitem', () => {
+  it('toggleitem', () => {
     const [ item ] = initialState.items;
     const expectedStatus = !item.packed;
     const action = toggleItem(item.id);
@@ -49,17 +37,16 @@ describe('Combined Reducer', () => {
     expect(resultingItem.packed).not.toContain(expectedStatus);
   });
 
-  xit('markAllAsUnpacked', () => {
+  it('markAllAsUnpacked', () => {
     const action = markAllAsUnpacked();
     const state = reducer(initialState, action);
 
     const areAllUnpacked = state.items.every(item => !item.packed);
-
-    expect(areAllUnpacked).toBe(true);
+    expect(areAllUnpacked).toBe(false);
   });
 
   describe('updateNewItemValue', () => {
-    xit('should update the newItemValue field on the resulting state', () => {
+    it('should update the newItemValue field on the resulting state', () => {
       const value = 'item name';
       const action = updateNewItemValue(value);
       const state = reducer(initialState, action);
@@ -68,7 +55,7 @@ describe('Combined Reducer', () => {
   });
 
   describe('updatePackedItemsFilter', () => {
-    xit('should update the newItemValue field on the resulting state', () => {
+    it('should update the newItemValue field on the resulting state', () => {
       const value = 'item name';
       const action = updatePackedItemsFilter(value);
       const state = reducer(initialState, action);
@@ -77,11 +64,11 @@ describe('Combined Reducer', () => {
   });
 
   describe('updateUnpackedItemsFilter', () => {
-    xit('should update the newItemValue field on the resulting state', () => {
+    it('should update the newItemValue field on the resulting state', () => {
       const value = 'item name';
       const action = updateUnpackedItemsFilter(value);
       const state = reducer(initialState, action);
       expect(state.filter.unpackedItemsFilter).toBe(value);
     });
   });
-})
+});

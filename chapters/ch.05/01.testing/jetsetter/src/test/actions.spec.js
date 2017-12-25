@@ -30,12 +30,12 @@ describe('Item Actions', () => {
   });
 
   describe('toggleItem', () => {
-    xit('should return TOGGLE_ITEM as the item type', () => {
+    it('should return TOGGLE_ITEM as the item type', () => {
       const action = toggleItem('item name');
       expect(action.type).toBe(constants.TOGGLE_ITEM);
     });
 
-    xit('should return the provided id on the action', () => {
+    it('should return the provided id on the action', () => {
       const id = '123';
       const action = toggleItem(id);
       expect(action.id).toBe(id);
@@ -43,12 +43,12 @@ describe('Item Actions', () => {
   });
 
   describe('removeItem', () => {
-    xit('should return REMOVE_ITEM as the item type', () => {
+    it('should return REMOVE_ITEM as the item type', () => {
       const action = removeItem('item name');
       expect(action.type).toBe(constants.REMOVE_ITEM);
     });
 
-    xit('should return the provided id on the action', () => {
+    it('should return the provided id on the action', () => {
       const id = '123';
       const action = removeItem(id);
       expect(action.id).toBe(id);
@@ -56,7 +56,7 @@ describe('Item Actions', () => {
   });
 
   describe('markAllAsUnpacked', () => {
-    xit('should return MARK_ALL_AS_UNPACKED as the item type', () => {
+    it('should return MARK_ALL_AS_UNPACKED as the item type', () => {
       const action = markAllAsUnpacked('item name');
       expect(action.type).toBe(constants.MARK_ALL_AS_UNPACKED);
     });
@@ -72,7 +72,7 @@ describe('New Item Actions', () => {
       expect(action.type).toBe(constants.UPDATE_NEW_ITEM_VALUE);
     });
 
-    xit('should return the provided text', () => {
+    it('should return the provided text', () => {
       const value = 'item name';
       const action = updateNewItemValue(value);
       expect(action.value).toBe(value);
@@ -84,12 +84,12 @@ describe('New Item Actions', () => {
 describe('Filter Actions', () => {
 
   describe('updateUnpackedItemsFilter', () => {
-    xit('should return UPDATE_UNPACKED_ITEMS_FILTER as the item type', () => {
+    it('should return UPDATE_UNPACKED_ITEMS_FILTER as the item type', () => {
       const action = updateUnpackedItemsFilter('item name');
       expect(action.type).toBe(constants.UPDATE_UNPACKED_ITEMS_FILTER);
     });
 
-    xit('should return the provided text', () => {
+    it('should return the provided text', () => {
       const text = 'item name';
       const action = updateUnpackedItemsFilter(text);
       expect(action.text).toBe(text);
@@ -97,16 +97,15 @@ describe('Filter Actions', () => {
   });
 
   describe('updatePackedItemsFilter', () => {
-    xit('should return UPDATE_PACKED_ITEMS_FILTER as the item type', () => {
+    it('should return UPDATE_PACKED_ITEMS_FILTER as the item type', () => {
       const action = updatePackedItemsFilter('item name');
       expect(action.type).toBe(constants.UPDATE_PACKED_ITEMS_FILTER);
     });
 
-    xit('should return the provided text', () => {
+    it('should return the provided text', () => {
       const text = 'item name';
       const action = updatePackedItemsFilter(text);
       expect(action.text).toBe(text);
     });
   });
-
 });
