@@ -1,4 +1,4 @@
-# Part Severn: React and Redux
+# Part Six: React and Redux
 Using the pizza calculator example. 
 
 ```javascript
