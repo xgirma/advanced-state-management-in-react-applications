@@ -67,7 +67,7 @@ describe('Item Actions', () => {
 describe('New Item Actions', () => {
 
   describe('updateNewItemValue', () => {
-    xit('should return UPDATE_NEW_ITEM_VALUE as the item type', () => {
+    it('should return UPDATE_NEW_ITEM_VALUE as the item type', () => {
       const action = updateNewItemValue('item name');
       expect(action.type).toBe(constants.UPDATE_NEW_ITEM_VALUE);
     });
