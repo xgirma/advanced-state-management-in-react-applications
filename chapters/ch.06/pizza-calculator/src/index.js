@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import getInitialState from './initial-state';
@@ -11,7 +11,15 @@ import Application from './components/Application';
 
 import './style.css';
 
-const store = createStore(reducer, getInitialState());
+const middleware = [];
+const enhancers = [];
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  reducer,
+  getInitialState(),
+  composeEnhancers(applyMiddleware(...middleware), ...enhancers)
+);
 
 render(
   <Provider store={store}>
