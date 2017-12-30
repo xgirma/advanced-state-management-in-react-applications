@@ -19,3 +19,5 @@ Steve's repos used in the workshop:
 [04. The Flux Pattern](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.04)
 
 [05. Redux](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.05)
+
+[06. React and Redux](https://github.com/xgirma/advanced-state-management-in-react-applications/tree/master/chapters/ch.06)
