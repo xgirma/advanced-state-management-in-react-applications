@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
 
-import { Input } from '../components/Input';
+import Input from '../components/Input';
+import { updateNumberOfPeople } from '../actions';
 
-const mapStateToProps = (state) => {
-  return {
-    value: state.numberOfPeople
-  };
-};
+const mapStateToProps = ({ numberOfPeople }) => ({
+  label: 'Number of People',
+  value: numberOfPeople,
+  type: 'number',
+  min: 0,
+});
 
 const mapDispatchToProps = (dispatch) => {
-  return{
+  return {
     onChange(value) {
-      updateNumberOfPeople(value)
+      dispatch(updateNumberOfPeople(value))
     }
   }
 };
