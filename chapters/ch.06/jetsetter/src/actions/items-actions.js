@@ -22,4 +22,4 @@ export const removeItem = (id) => ({
 
 export const markAllAsUnpacked = () => ({
   type: MARK_ALL_AS_UNPACKED,
-})
+});
