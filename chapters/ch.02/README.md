@@ -361,6 +361,9 @@ For most part I pass object to this.setState(). There are other interfaces, you 
 
 <img width="997" alt="screen shot 2018-01-30 at 12 43 32 am" src="https://user-images.githubusercontent.com/5876481/35556354-d84c7854-0556-11e8-9b44-6cfa93a745cf.png">
 
+Function gives us programatic control over the state. 
+<img width="998" alt="screen shot 2018-01-30 at 12 47 54 am" src="https://user-images.githubusercontent.com/5876481/35556511-4318fad6-0557-11e8-877f-ee096f264bed.png">
+
 :open_mouth: Renders  Count: 3 :open_mouth:
 
 When we use a function, instead of merging a bunch of object, it grabs each function and plays through them. It behaves more as we expect it. 
