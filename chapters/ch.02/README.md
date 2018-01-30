@@ -275,6 +275,18 @@ What is the out put of `console.log` immediately after we increment three times?
 
 :open_mouth: Output = 0 :open_mouth: the reason for that is `this.setState() is asynchronious`. The reason is `React is trying to avoid un-necessary re-renders`. Oh, the state has changes, let me collect all these states, and i will diff virtual DOM and figure what I am suppose to do. 
 
+<img width="998" alt="screen shot 2018-01-30 at 12 28 49 am" src="https://user-images.githubusercontent.com/5876481/35555772-1f7481f6-0555-11e8-8a7b-776e45db3de3.png">
+
+<img width="997" alt="screen shot 2018-01-30 at 12 29 03 am" src="https://user-images.githubusercontent.com/5876481/35555773-1f8948de-0555-11e8-8f2e-31802e66e447.png">
+
+<img width="998" alt="screen shot 2018-01-30 at 12 29 18 am" src="https://user-images.githubusercontent.com/5876481/35555775-1f9d0720-0555-11e8-94e5-e079588942c3.png">
+
+<img width="1001" alt="screen shot 2018-01-30 at 12 29 34 am" src="https://user-images.githubusercontent.com/5876481/35555776-1fb0c418-0555-11e8-87cf-ef3e9fe94319.png">
+
+<img width="944" alt="screen shot 2018-01-30 at 12 31 29 am" src="https://user-images.githubusercontent.com/5876481/35555777-1fc41edc-0555-11e8-854a-6c34e5068f97.png">
+
+<img width="926" alt="screen shot 2018-01-30 at 12 31 39 am" src="https://user-images.githubusercontent.com/5876481/35555778-1fdb3c70-0555-11e8-9aed-337a54005102.png">
+
 ### 2. what gets rendered
 What gets rendered after we increment three times? 
 
