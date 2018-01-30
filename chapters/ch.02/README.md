@@ -482,7 +482,11 @@ describe('decrement', () => {
 ```
 
 ### 4. callback function
-`this.setState` also takes a `callback`. We can pass either `object` or `function` that will mutate a state, and then we can pass second argument that will get called once it has done state changeed. 
+`this.setState` also takes a `callback`. We can pass either `object` or `function` that will mutate a state, and then we can pass second argument that will get called once it has done state changeed.
+
+<img width="995" alt="screen shot 2018-01-30 at 12 52 13 am" src="https://user-images.githubusercontent.com/5876481/35556726-e97a8cd2-0557-11e8-9d3f-00f4666b87f3.png">
+
+<img width="998" alt="screen shot 2018-01-30 at 12 52 26 am" src="https://user-images.githubusercontent.com/5876481/35556728-e99e9546-0557-11e8-860c-02eda809a137.png"> 
 
 ```html
 <div id="root"></div>
