@@ -536,13 +536,21 @@ After clicking `decrement` button.
 Why would we use this `callback` for? e.g. we save the most recent color hahah and save it to local storage.
 
 ## Patterns and anti-patterns
+<img width="998" alt="screen shot 2018-01-30 at 12 53 48 am" src="https://user-images.githubusercontent.com/5876481/35556855-4ce5266a-0558-11e8-9738-a0f25447414b.png">
+
+<img width="998" alt="screen shot 2018-01-30 at 12 54 55 am" src="https://user-images.githubusercontent.com/5876481/35556856-4d0f8c0c-0558-11e8-90f7-de8493740792.png">
+
 Thinking in React: :closed_lock_with_key: `State should be considered private data` :closed_lock_with_key:. It can be passed down to children, but it is unique to this component. Generally speaking we don't want to modify it outside of the component. 
 
 :skull: Dangers to work with `state` than `props`: :skull: When we're working with `props`, we have `PropTypes`. That is not the case with `state`. One solution: what is we had our state effectively passed in as props? we will see some patterns for that, e.g. the `container pattern`. 
 
+<img width="998" alt="screen shot 2018-01-30 at 12 56 40 am" src="https://user-images.githubusercontent.com/5876481/35556925-7b569e5c-0558-11e8-9cbe-1e2232e66aa4.png">
+
  <img width="601" alt="screen shot 2017-12-19 at 4 08 57 am" src="https://user-images.githubusercontent.com/5876481/34156502-62299f08-e472-11e7-9927-00be6f4116d0.png">
  
  > 1. Don't use this.state for derivations of props. 
+ 
+ <img width="998" alt="screen shot 2018-01-30 at 12 58 33 am" src="https://user-images.githubusercontent.com/5876481/35557035-c712dac2-0558-11e8-88ae-ae9ca264e620.png">
  
 ```javascript
 class User extends Component {
