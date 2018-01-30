@@ -1,0 +1,43 @@
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.6.0/prop-types.js"></script>
+
+<script type="text/babel">
+  class Counter extends React.Component {
+    state = { count: 10 };
+
+    handleIncrement = () =>{
+      this.setState({
+	      count: this.state.count + 1,
+      });
+    };
+    handleDecrement = () => {
+      this.setState({
+	      count: this.state.count - 1,
+      });
+    };
+    handleReset = () => {
+      this.setState({
+	      count: 10,
+      });
+    };
+    render() {
+      const { count } = this.state;
+      return(
+        <section className="Counter">
+            <h1>Counter: {count} </h1>
+            <button onClick={this.handleIncrement}>Increment</button>
+            <button onClick={this.handleDecrement}>Decrement</button>
+            <button onClick={this.handleReset}>Reset</button>
+        </section>
+      )
+    }
+  }
+
+  ReactDOM.render(
+    <Counter />,
+    document.getElementById('root')
+  )
+</script>

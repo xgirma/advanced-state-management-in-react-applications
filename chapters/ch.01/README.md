@@ -26,6 +26,8 @@ Which means it is very un-opinionated about how you manage your state. You are i
 
 In the React documentation [`Thinking in React`](https://reactjs.org/docs/thinking-in-react.html) section  states the React philosophy. 
 
+<img width="1007" alt="screen shot 2018-01-29 at 11 41 32 pm" src="https://user-images.githubusercontent.com/5876481/35555087-e5c995d8-0552-11e8-9e2d-0b6347baf315.png">
+
 <img width="730" alt="screen shot 2017-12-18 at 11 55 43 pm" src="https://user-images.githubusercontent.com/5876481/34146473-09e460e4-e44f-11e7-8e9a-00990647c303.png">
 
         1. what thing do we need to manage by hand and
@@ -37,6 +39,8 @@ For example, for a `full name`, what you don't want to be incharge of everytime 
 Think of the bare-minimum amount of state you need, and drive everything from that. 
 
 ### what is state
+
+<img width="978" alt="screen shot 2018-01-29 at 11 41 52 pm" src="https://user-images.githubusercontent.com/5876481/35555122-0f80f538-0553-11e8-885d-02e7794b067e.png">
 
         1. Is it passed in from a parent via props? If so, it probably isn't state. 
 
@@ -104,6 +108,8 @@ We have `Counter` and `DoubleCount`. In this case `DoubleCount` is just a second
 ### all state not created equal
 State is abroad term. There are different interpretation of it. There are many kinds of state: 
 
+<img width="956" alt="screen shot 2018-01-29 at 11 42 54 pm" src="https://user-images.githubusercontent.com/5876481/35555158-2e59cebc-0553-11e8-846e-6ce282f0e047.png">
+
 #### 1. model data
 The nouns in your application. 
 
@@ -120,6 +126,8 @@ Are we in the process of fetching the nouns from the server?
 Where are we in the application? Which nouns are we looking at? 
 
 Or it might make sence to think about state relative to time. 
+
+<img width="981" alt="screen shot 2018-01-29 at 11 43 11 pm" src="https://user-images.githubusercontent.com/5876481/35555197-4939a9e6-0553-11e8-87ec-cc90569451b0.png">
 
 #### 6. long-lasting state
 This is likely the data in your application. Model state. e.g. in gmail the list of email tiy looking at. 
