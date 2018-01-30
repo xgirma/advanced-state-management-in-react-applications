@@ -285,14 +285,14 @@ What is the out put of `console.log` immediately after we increment three times?
 
 <img width="944" alt="screen shot 2018-01-30 at 12 31 29 am" src="https://user-images.githubusercontent.com/5876481/35555777-1fc41edc-0555-11e8-854a-6c34e5068f97.png">
 
-<img width="926" alt="screen shot 2018-01-30 at 12 31 39 am" src="https://user-images.githubusercontent.com/5876481/35555778-1fdb3c70-0555-11e8-9aed-337a54005102.png">
-
 ### 2. what gets rendered
 What gets rendered after we increment three times? 
 
 <img width="769" alt="screen shot 2017-12-19 at 2 23 51 am" src="https://user-images.githubusercontent.com/5876481/34152509-b4762e20-e463-11e7-982e-b6f54a6175c3.png">
 
 :open_mouth: Renders  Count: 1 :open_mouth:
+
+<img width="926" alt="screen shot 2018-01-30 at 12 31 39 am" src="https://user-images.githubusercontent.com/5876481/35555778-1fdb3c70-0555-11e8-9aed-337a54005102.png">
 
 Effectively, you are queuing up state changes. React will batch them up, figure out the result and then efficiently make that change. it got the message `three` times. The new state of `count` is the `current count` plus `one`. And we tolled it again the `current count` plus `one`, we tolled it the third time `current count` plus `one`. Guess what `0 + 1 is` still `1`. Either we say it three times. So it quee them and try to figure out them together. 
 
@@ -352,6 +352,14 @@ For most part I pass object to this.setState(). There are other interfaces, you 
 ```
 
 <img width="770" alt="screen shot 2017-12-19 at 2 42 05 am" src="https://user-images.githubusercontent.com/5876481/34153245-3ec752f0-e466-11e7-9df6-0f040bc22f58.png">
+
+<img width="1000" alt="screen shot 2018-01-30 at 12 40 27 am" src="https://user-images.githubusercontent.com/5876481/35556350-d800c42c-0556-11e8-8ad3-5f89c6053c99.png">
+
+<img width="995" alt="screen shot 2018-01-30 at 12 40 46 am" src="https://user-images.githubusercontent.com/5876481/35556351-d826a8ea-0556-11e8-9403-0fcfa186c250.png">
+
+<img width="918" alt="screen shot 2018-01-30 at 12 43 16 am" src="https://user-images.githubusercontent.com/5876481/35556353-d8391c82-0556-11e8-9055-6a4cb67f102c.png">
+
+<img width="997" alt="screen shot 2018-01-30 at 12 43 32 am" src="https://user-images.githubusercontent.com/5876481/35556354-d84c7854-0556-11e8-9b44-6cfa93a745cf.png">
 
 :open_mouth: Renders  Count: 3 :open_mouth:
 
