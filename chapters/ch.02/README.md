@@ -578,6 +578,10 @@ We have a friend, sometimes that friend is our self, 6 months later. that writes
 
 You :dart: You don't need to shove everything into your render method. :dart: You can break things out into helper methods. 
 
+<img width="996" alt="screen shot 2018-01-30 at 1 01 07 am" src="https://user-images.githubusercontent.com/5876481/35557160-205fb06e-0559-11e8-8401-326d68e9fc47.png">
+
+<img width="996" alt="screen shot 2018-01-30 at 1 01 24 am" src="https://user-images.githubusercontent.com/5876481/35557161-2073d53a-0559-11e8-8f3a-997ec2f23440.png">
+
 ```javascript
 class User extends Component {
   get fillName(){
@@ -646,6 +650,8 @@ You will be `reading` code more than you will be `writting` code. You should thi
 
 > 2. Don't use state for things you're not going to render. 
 
+<img width="1000" alt="screen shot 2018-01-30 at 1 03 24 am" src="https://user-images.githubusercontent.com/5876481/35557253-6c4dd3f2-0559-11e8-8455-9cf915d968f6.png">
+
 For instance,  a twitter live stream for some reason and it is using just basically an interval call the API we don't want to put that in the state we are not rendering that. We need to holdon to it so that i can get readof it when the component un-mount. Otherwise we have a memeory leak. 
 
 before
@@ -699,9 +705,34 @@ class TweetStream extends Component {
 }
 ````
 
+<img width="996" alt="screen shot 2018-01-30 at 1 05 24 am" src="https://user-images.githubusercontent.com/5876481/35557377-d3bc03f6-0559-11e8-8d5d-a042569e2bfe.png">
+
+<img width="1000" alt="screen shot 2018-01-30 at 1 05 41 am" src="https://user-images.githubusercontent.com/5876481/35557379-d55587fa-0559-11e8-8bf2-d09cdd892ff5.png">
+
 > 3. Use sensible defaults
 
+<img width="996" alt="screen shot 2018-01-30 at 1 08 13 am" src="https://user-images.githubusercontent.com/5876481/35557514-32754434-055a-11e8-8aa7-a683bd1173c8.png">
+
 When possible use sensible defaults. Right? If you expect to get an array from an API, you should have a default be an `array`.
+
+<img width="995" alt="screen shot 2018-01-30 at 1 08 37 am" src="https://user-images.githubusercontent.com/5876481/35557516-32be6c40-055a-11e8-85d3-037d3d2b0617.png">
+
+````javascript
+class Items extends Component {
+  constructor() {
+    super();
+  }
+  
+  componentDidMount() {
+    Api.getAll('/api/items').then(items => {
+      this.setState({ items });
+    });
+  }
+  
+  rendr () { // Do stuff with items }
+}
+````
+<img width="992" alt="screen shot 2018-01-30 at 1 08 48 am" src="https://user-images.githubusercontent.com/5876481/35557517-32d9d980-055a-11e8-92d0-5de9d896ffd1.png">
 
 ````javascript
 class Items extends Component {
@@ -721,6 +752,7 @@ class Items extends Component {
   rendr () { // Do stuff with items }
 }
 ````
+Program defensively. If the call takes longer than you thought and you try to map-over it, that will be  disaster, so give `[]` as default. We won't get a prop type warning.
 
 ## Example Application: jet setter
 In a large application you have to go down a few more ancestors. Note: `chapters/ch.02/jetsetter/srcBefore/` contains the original code before modification. The same code can be found [here](https://github.com/stevekinney/jetsetter/blob/master/README.md) under the `basic-state` branch. 
