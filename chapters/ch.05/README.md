@@ -46,6 +46,8 @@ createStore: function()
 Compose is not actually Redux specific. It takes a bunch of functions and chain them. Redux uses it, we use it when we put middleware together. It is not Redux, it is just a helper method. 
 
 ```javascript
+import { compose } from 'redux'
+
 const makeLouder = string => string.toUpperCase();
 const repeatThreeTimes = string => string.repeat(3);
 const embolden = string => string.bold(3);
@@ -57,12 +59,7 @@ It is hard to read that backwards. What compsose does is, takes a bunch of funct
 
 using compose form Redux
 ```javascript
-import {
-  applyMiddleware,
-  bindActionCreators,
-  combineReducers,
-  compose,
-  createStore,} from 'redux'
+import { compose } from 'redux'
 
 const makeLouder = string => string.toUpperCase();
 const repeatThreeTimes = string => string.repeat(3);
