@@ -71,9 +71,9 @@ const embolden = string => string.bold();
 const result = embolden(repeatThreeTimes(makeLouder('string ')));
 console.log(result); // <b>STRING STRING STRING </b>
 
-const newResult = compose(makeLouder, repeatThreeTimes, embolden);
+const newResult = compose(embolden, repeatThreeTimes, makeLouder);
 
-console.log(newResult('string')); // <B>STRING</B><B>STRING</B><B>STRING</B>
+console.log(newResult('string')); // <b>STRING STRING STRING </b>
 ```
 
 ## Idea of reducer
