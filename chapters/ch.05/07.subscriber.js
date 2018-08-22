@@ -1,9 +1,11 @@
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,} from 'redux'
+  createStore } = redux;
 
 const initState = { result: 1 };
 

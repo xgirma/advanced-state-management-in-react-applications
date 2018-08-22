@@ -1,9 +1,11 @@
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,} from 'redux'
+  createStore } = redux;
 
 const makeLouder = string => string.toUpperCase();
 const repeatThreeTimes = string => string.repeat(3);
