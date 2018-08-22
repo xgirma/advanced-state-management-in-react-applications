@@ -21,6 +21,7 @@ const result = embolden(repeatThreeTimes(makeUpperCase('string ')));
 console.log(result);
 // <b>STRING STRING STRING </b>
 
+// using redux compose
 const newResult = compose(embolden, repeatThreeTimes, makeUpperCase);
 
 console.log(newResult('string '));
