@@ -605,103 +605,75 @@ addValue(12);
 
 What is this `bindActionCreators`?
 
-## applyMiddleware
-let us add more loggers: 
+# 5. applyMiddleware
+We use this to apply middleware. It is really a take on compose, which is, it will allow you to kind of go in and, build intermediary steps in this processes.
+
+> createStore(reducer, preloadedState, enhancer) [source](https://github.com/reduxjs/redux/blob/master/docs/api/createStore.md)
+
+Let us add more loggers: 
 
 ```javascript
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,
-} from 'redux'
+  createStore
+} = redux;
 
-const initState = { result: 1} ;
+const initialState = { result: 0 };
 
-const addAction = {
-  type: 'ADD',
-  value: 4
-};
+const initialErrorState = { message: '' };
 
-let calculateReducer = (state = initState, action) => {
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
   return state;
 };
 
-const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
-  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
-};
-
-const initError = {message: ''};
-
-let errorMessageReducer = (state = initError, action) => {
-  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
-  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
+const errorReducer = (state = initialErrorState, action) => {
+  if(action.type === 'SET_ERROR_MESSAGE') return { message: action.value};
+  if(action.type === 'CLEAR_ERROR_MESSAGE') return { message: ''};
   return state;
 };
 
+// middleware
+const logger = ({ getState }) => {
+  return next => action => {
+    console.log('MIDDLEWARE', getState(), action);
+    return next(action);
+  }
+};
 
-// Middleware
-const logger = ({ getState}) => { return next => action => {
-  console.log('MIDDLEWARE: ', getState(), action );
-  const value = next(action);
-  console.log({value});
+const store = createStore(combineReducers({
+  calculator: calculatorReducer,
+  error: errorReducer
+}), {}, applyMiddleware(logger));
 
-}};
+const add = value => ({ type: 'ADD', value });
+const setError = message => ({ type: 'SET_ERROR_MESSAGE', message });
+const clearError = () => ({ type: 'CLEAR_ERROR_MESSAGE' });
 
+store.dispatch(add(4));
+store.dispatch(setError('Fix the error, and move on'));
+store.dispatch(clearError());
 
-const store = createStore(
-  combineReducers({
-    calculator: calculateReducer,
-    error: errorMessageReducer,
-  }), {}, applyMiddleware(logger)
-);
+/*
+    MIDDLEWARE { calculator: { result: 0 }, error: { message: '' } } { type: 'ADD', value: 4 }
+    MIDDLEWARE { calculator: { result: 4 }, error: { message: '' } } { type: 'SET_ERROR_MESSAGE',
+      message: 'Fix the error, and move on' }
+    MIDDLEWARE { calculator: { result: 4 }, error: { message: undefined } } { type: 'CLEAR_ERROR_MESSAGE' }
+*/
+``` 
 
-
-
-const unsubscribe = store.subscribe(subscriber);
-
-const init = store.getState();
-console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
-
-store.dispatch({
-  type: "SET_ERROR_MESSAGE",
-  message: "This is going to blow your mind."
-});
-
-// SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION This is going to blow your mind.
-
-// action creator
-
-const add = (value ) => {return { type: 'ADD', value }};
-
-store.dispatch(add(40));
-
-// SUBSCRIPTION!!! 45 RRROR SUBSCRIPTION This is going to blow your mind.
-
-
-const setError = (message) => ({ type: "SET_ERROR_MESSAGE", message });
-const clearError = (message) => ({ type: "CLEAR_ERROR_MESSAGE", message });
-
-// custom singular bind
-const bindActionCreator = (action, dispatch) => (...args) => dispatch(action( ...args));
-
-const addValue = bindActionCreator(add, store.dispatch);
-
-addValue(12);
-
-// SUBSCRIPTION!!! 57 RRROR SUBSCRIPTION This is going to blow your mind.
-```
-<img width="716" alt="screen shot 2017-12-24 at 4 07 09 am" src="https://user-images.githubusercontent.com/5876481/34326414-3241835e-e860-11e7-96e6-be72452c130e.png">
+`applyMiddleware` can take multiple argument, using compose. We are in full circle.
 
 # Testing
 Redux is a collection of function and actions. The good thing about that it is easy to test. You want to test a reducer? that is a function. 
