@@ -436,77 +436,89 @@ store.dispatch(addAction);
 We are now with full Redux setup.
 
 # Action creators  
-Easy
+Easy...
 ```javascript
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,
-} from 'redux'
+  createStore
+} = redux;
 
-const initState = { result: 1} ;
-
-const addAction = {
-  type: 'ADD',
-  value: 4
+const initialState = {
+  result: 0
 };
 
-let calculateReducer = (state = initState, action) => {
+const initialErrorState = {
+  message: ''
+};
+
+// before
+// const addAction = {
+//   type: 'ADD',
+//   value: 4
+// };
+//
+// const errorAction = {
+//   type: 'SET_ERROR_MESSAGE',
+//   value: 'Fix the error, and move on'
+// };
+
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
   return state;
 };
+
+const errorReducer = (state = initialErrorState, action) => {
+  if(action.type === 'SET_ERROR_MESSAGE') return { message: action.value};
+  if(action.type === 'CLEAR_ERROR_MESSAGE') return { message: ''};
+  return state;
+};
+
+const store = createStore(combineReducers({
+  calculator: calculatorReducer,
+  error: errorReducer
+}));
 
 const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
-  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+  console.log('SUBSCRIPTION!!!');
+  console.log(store.getState());
 };
 
-const initError = {message: ''};
+store.subscribe(subscriber);
 
-let errorMessageReducer = (state = initError, action) => {
-  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
-  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
-  return state;
-};
+// action creators
+const add = value => ({ type: 'ADD', value });
+const setError = message => ({ type: 'SET_ERROR_MESSAGE', message });
+const clearError = () => ({ type: 'CLEAR_ERROR_MESSAGE' });
 
-const store = createStore(
-  combineReducers({
-    calculator: calculateReducer,
-    error: errorMessageReducer,
-  })
-);
+store.dispatch(add(4));
+store.dispatch(setError('Fix the error, and move on'));
+store.dispatch(add(10));
+store.dispatch(clearError());
 
-const unsubscribe = store.subscribe(subscriber);
-
-const init = store.getState();
-console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
-
-store.dispatch({
-  type: "SET_ERROR_MESSAGE",
-  message: "This is going to blow your mind."
-});
-
-// SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION This is going to blow your mind.
-
-// action creator
-
-const add = (value ) => {return { type: 'ADD', value }};
-
-store.dispatch(add(40));
-
-// SUBSCRIPTION!!! 45 RRROR SUBSCRIPTION This is going to blow your mind.
+/*
+    SUBSCRIPTION!!!
+    { calculator: { result: 4 }, error: { message: '' } }
+    SUBSCRIPTION!!!
+    { calculator: { result: 4 }, error: { message: undefined } }
+    SUBSCRIPTION!!!
+    { calculator: { result: 14 }, error: { message: undefined } }
+    SUBSCRIPTION!!!
+    { calculator: { result: 14 }, error: { message: '' } }
+ */
 ```
 
-## bindActionCreators 
+# 4. bindActionCreators (draft)
 You could write this function in about one line. 
 
 ```javascript
