@@ -347,7 +347,7 @@ console.log(store.getState());
 */
 ``` 
 
-# 3. combineReducer: one store 
+# 3. combineReducers: one store 
 React only has the idea of one store, one tree, and one reducer. 
 
 >Combining reducers allowes you to break your application into smaller parts. 
@@ -676,9 +676,7 @@ store.dispatch(clearError());
 `applyMiddleware` can take multiple argument, using compose. We are in full circle.
 
 # Testing
-Redux is a collection of function and actions. The good thing about that it is easy to test. You want to test a reducer? that is a function. 
-
-You should not test everything. For example, I put the `input-field` in the Redux store just for demonstration purpose. 
+Redux is a collection of function and actions. The good thing about that it is easy to test. You want to test a reducer? that is a function.
 
 action
 ```javascript
