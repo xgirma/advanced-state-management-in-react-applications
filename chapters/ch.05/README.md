@@ -46,31 +46,37 @@ createStore: function()
 Compose is not actually Redux specific. It takes a bunch of functions and chain them. Redux uses it, we use it when we put middleware together. It is not Redux, it is just a helper method. 
 
 ```javascript
-import { compose } from 'redux'
-
-const makeLouder = string => string.toUpperCase();
+const makeUpperCase = string => string.toUpperCase();
 const repeatThreeTimes = string => string.repeat(3);
 const embolden = string => string.bold(3);
 
-const result = embolden(repeatThreeTimes(makeLouder('string ')));
-console.log(result); // <b>STRING STRING STRING </b>
+const result = embolden(repeatThreeTimes(makeUpperCase('string ')));
+console.log(result);
+// <b>STRING STRING STRING </b>
 ```
-It is hard to read that backwards. What compsose does is, takes a bunch of function and return a function. 
+It is hard to read that backwards. What compose does is, takes a bunch of function and return a function. 
 
-using compose form Redux
+using Redux's compose
 ```javascript
-import { compose } from 'redux'
+const redux = require('redux');
 
-const makeLouder = string => string.toUpperCase();
+const {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore
+} = redux;
+
+const makeUpperCase = string => string.toUpperCase();
 const repeatThreeTimes = string => string.repeat(3);
-const embolden = string => string.bold();
+const embolden = string => string.bold(3);
 
-const result = embolden(repeatThreeTimes(makeLouder('string ')));
-console.log(result); // <b>STRING STRING STRING </b>
+// using redux compose
+const newResult = compose(embolden, repeatThreeTimes, makeUpperCase);
 
-const newResult = compose(embolden, repeatThreeTimes, makeLouder);
-
-console.log(newResult('string')); // <b>STRING STRING STRING </b>
+console.log(newResult('string '));
+// <b>STRING STRING STRING </b>
 ```
 
 ## Idea of reducer
