@@ -42,4 +42,15 @@ store.dispatch(addAction);
 store.dispatch(addAction);
 
 unsubscribe();
+store.dispatch(addAction);
 console.log(store.getState());
+
+/*
+    SUBSCRIPTION!!!
+    { result: 4 }
+    SUBSCRIPTION!!!
+    { result: 8 }
+    SUBSCRIPTION!!!
+    { result: 12 }
+    { result: 16 }
+*/

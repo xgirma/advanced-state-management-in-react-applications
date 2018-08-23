@@ -40,3 +40,12 @@ store.subscribe(subscriber);
 store.dispatch(addAction);
 store.dispatch(addAction);
 store.dispatch(addAction);
+
+/*
+    SUBSCRIPTION!!!
+      { result: 4 }
+    SUBSCRIPTION!!!
+      { result: 8 }
+    SUBSCRIPTION!!!
+      { result: 12 }
+*/
