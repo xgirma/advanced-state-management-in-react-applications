@@ -42,7 +42,7 @@ compose: function()
 createStore: function()
 ``` 
 
-## Compose
+# 1. Compose
 Compose is not actually Redux specific. It takes a bunch of functions and chain them. `Redux uses it, we use it when we put middleware together`. It is not Redux, it is just a helper method. 
 
 ```javascript
@@ -79,7 +79,7 @@ console.log(newResult('string '));
 // <b>STRING STRING STRING </b>
 ```
 
-## Reducer
+# Reducer
 The world simplest reducer, ignore everything and returns the state. 
 ```javascript
 // simplest reducer
@@ -126,7 +126,7 @@ console.log(calculatorReducer({ action }));
 
 We have produced `new state of the world, we need to store that somewhere`.
 
-## Store: createStore
+# 2. Store: createStore
 ```javascript
 const redux = require('redux');
 
@@ -189,7 +189,7 @@ console.log(store);
 ```
 Store have `dispatch`, `subscribe`, `getState`, and `replaceReducer` methods.`
 
-### Store: Subscribe 
+## Store: Subscribe 
 ```javascript
 const redux = require('redux');
 
@@ -227,7 +227,7 @@ const subscriber = () => {
 store.subscribe(subscriber);
 ```
 
-### Store: dispatch
+## Store: dispatch
 Now let us dispatch an action three times
 ```javascript
 const redux = require('redux');
@@ -285,7 +285,7 @@ store.dispatch(addAction);
 ```
 So the store is keeping track of the state of the world. Now we have a way to manage state and manipulate state. 
 
-### Store: unsubscribe
+## Store: unsubscribe
 What is if we unsubscribe after we dispatch three actions, and dispatch one more time?
 
 ```javascript
@@ -347,82 +347,95 @@ console.log(store.getState());
 */
 ``` 
 
-## combineReducer
-React ONLY have one tree, one reducer. 
+# 3. combineReducer: one store 
+React only has the idea of one store, one tree, and one reducer. 
 
-One tree for the entire app. Grate. App grow. We can only  have one reducer, you don't want your reducer to grow and grow and grow. Ideally likely be able to split it out. Unfortunately React only have the idea of one reducer. 
+>Combining reducers allowes you to break your application into smaller parts. 
 
-We can only have one reducer, but what we could do is, we could have small reducers and when we setup a store we could theoretically combine them together into one.  
+One tree for the entire app. Grate. App grow, over time. You don't want your reducer to grow and grow and grow. Ideally likely be able to split it out. Unfortunately React only have the idea of one reducer. 
+
+Solution: what we could do is split the reducer into small reducers and when we setup a store we could theoretically combine them together into one.  
 
 ```javascript
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,
-} from 'redux'
+  createStore
+} = redux;
 
-const initState = { result: 1} ;
+const initialState = {
+  result: 0
+};
+
+const initialErrorState = {
+  message: ''
+};
 
 const addAction = {
   type: 'ADD',
   value: 4
 };
 
-let calculateReducer = (state = initState, action) => {
+const errorAction = {
+  type: 'SET_ERROR_MESSAGE',
+  value: 'Fix the error, and move on'
+};
+
+// reducer 1
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
   return state;
 };
+
+// reducer 2
+const errorReducer = (state = initialErrorState, action) => {
+  if(action.type === 'SET_ERROR_MESSAGE') return { message: action.value};
+  if(action.type === 'CLEAR_ERROR_MESSAGE') return { message: ''};
+  return state;
+};
+
+// const store = createStore(calculatorReducer); // before
+const store = createStore(combineReducers({
+  calculator: calculatorReducer,
+  error: errorReducer
+}));
 
 const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().calculator.result);
-  console.log('RRROR SUBSCRIPTION', store.getState().error.message);
+  console.log('SUBSCRIPTION!!!');
+  console.log(store.getState());
 };
 
-const initError = {message: ''};
+store.subscribe(subscriber);
 
-let errorMessageReducer = (state = initError, action) => {
-  if (action.type === 'SET_ERROR_MESSAGE') return {message: action.message};
-  if (action.type === 'CLEAR_ERROR_MESSAGE') return {message: ''};
-  return state;
-};
+store.dispatch(addAction);
+store.dispatch(errorAction);
+store.dispatch(addAction);
 
-const store = createStore(
-  combineReducers({
-    calculator: calculateReducer,
-    error: errorMessageReducer,
-  })
-);
-
-const unsubscribe = store.subscribe(subscriber);
-
-const init = store.getState();
-console.log(init); // { calculator: { result: 1 }, error: { message: '' } }
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5 RRROR SUBSCRIPTION
-store.dispatch(addAction); // SUBSCRIPTION!!! 9 RRROR SUBSCRIPTION
-store.dispatch(addAction); // SUBSCRIPTION!!! 13 RRROR SUBSCRIPTION
-
-
-store.dispatch({
-  type: "SET_ERROR_MESSAGE",
-  message: "This is going to blow your mind."
-});
-
-// SUBSCRIPTION!!! 13 RRROR SUBSCRIPTION This is going to blow your mind.
-
-unsubscribe();
+/*
+    SUBSCRIPTION!!!
+    { calculator: { result: 4 }, error: { message: '' } }
+    SUBSCRIPTION!!!
+    { calculator: { result: 4 },
+      error: { message: 'Fix the error, and move on' } }
+    SUBSCRIPTION!!!
+    { calculator: { result: 8 },
+      error: { message: 'Fix the error, and move on' } }
+*/
 ```
 
 We are now with full Redux setup.
 
-## Action creators  
+# Action creators  
 Easy
 ```javascript
 import {
