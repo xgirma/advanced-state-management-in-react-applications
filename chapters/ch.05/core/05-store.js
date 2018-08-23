@@ -28,13 +28,12 @@ const store = createStore(calculatorReducer);
 
 console.log(store);
 
-/**
- * store has few methods
- * {
- *   dispatch: [Function: dispatch],
- *   subscribe: [Function: subscribe],
- *   getState: [Function: getState],
- *   replaceReducer: [Function: replaceReducer],
- *   [Symbol(observable)]: [Function: observable]
- * }
+/*
+{
+  dispatch: [Function: dispatch],
+  subscribe: [Function: subscribe],
+  getState: [Function: getState],
+  replaceReducer: [Function: replaceReducer],
+  [Symbol(observable)]: [Function: observable]
+}
 */

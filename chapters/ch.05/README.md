@@ -43,7 +43,7 @@ createStore: function()
 ``` 
 
 ## Compose
-Compose is not actually Redux specific. It takes a bunch of functions and chain them. Redux uses it, we use it when we put middleware together. It is not Redux, it is just a helper method. 
+Compose is not actually Redux specific. It takes a bunch of functions and chain them. `Redux uses it, we use it when we put middleware together`. It is not Redux, it is just a helper method. 
 
 ```javascript
 const makeUpperCase = string => string.toUpperCase();
@@ -79,209 +79,277 @@ console.log(newResult('string '));
 // <b>STRING STRING STRING </b>
 ```
 
-## Idea of reducer
+## Reducer
 The world simplest reducer, ignore everything and returns the state. 
 ```javascript
-import {
-  applyMiddleware,
-  bindActionCreators,
-  combineReducers,
-  compose,
-  createStore,} from 'redux'
+// simplest reducer
+const initialState = {
+  result: 0
+};
 
-const initState = { result: 0 };
-
-const calculateReducer = ( state = initState, action) => {
+const calculatorReducer = (action, state = initialState) => {
   return state;
 };
 
-const result = calculateReducer(); // { result: 0 }
+console.log(calculatorReducer());
 ```
 
-Your application is not care about the the simplest reducer. We don't do with the action just yet. Let say we have action that is called `ADD`. Probably we need the `action type` and the `value` we want to add. 
+Now, let say we have action that is called `ADD`. Probably we need the `action type` and the `value` we want to add. 
 
 ```javascript
-import {
-  applyMiddleware,
-  bindActionCreators,
-  combineReducers,
-  compose,
-  createStore,} from 'redux'
+const initialState = {
+  result: 0
+};
 
-const initState = { result: 1 };
-
-const addAction = {
+const action = {
   type: 'ADD',
   value: 4
 };
 
-const calculateReducer = ( state = initState, action) => {
+const calculatorReducer = ({state = initialState, action}) => {
+  if(action.type === 'ADD'){
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  
+  return state;
+};
+
+console.log(calculatorReducer({ action }));
+console.log(calculatorReducer({ action }));
+
+// { result: 4 }
+// { result: 4 }
+```
+
+We have produced `new state of the world, we need to store that somewhere`.
+
+## Store: createStore
+```javascript
+const redux = require('redux');
+
+const {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore
+} = redux;
+
+console.log(createStore());
+// throw new Error('Expected the reducer to be a function.');
+// NOTE: store created with a reducer param
+```
+
+As shown in the error message, to create a store we need to provide a `reducer`.
+
+
+```javascript
+const redux = require('redux');
+
+const {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore
+} = redux;
+
+const initialState = {
+  result: 0
+};
+
+const calculatorReducer = (state = initialState, action = 'ADD') => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
+  return state;
 };
 
-const result = calculateReducer(initState, addAction);
-console.log(result); // { result: 5 }
-```
 
-We have produced new state of the world, we need to store that somewhere.
+const store = createStore(calculatorReducer);
 
-## createStore
-
-```javascript
-import {
-  applyMiddleware,
-  bindActionCreators,
-  combineReducers,
-  compose,
-  createStore,} from 'redux'
-
-const initState = { result: 1 };
-
-const addAction = {
-  type: 'ADD',
-  value: 4
-};
-
-const calculateReducer = ( state = initState, action) => {
-  if (action.type === 'ADD') {
-    return {
-      ...state,
-      result: state.result + action.value
-    }
-  }
-};
-
-const store = createStore(calculateReducer);
 console.log(store);
 
 /*
-{ dispatch: [Function: dispatch],
+{
+  dispatch: [Function: dispatch],
   subscribe: [Function: subscribe],
   getState: [Function: getState],
-  replaceReducer: [Function: replaceReducer] }
+  replaceReducer: [Function: replaceReducer],
+  [Symbol(observable)]: [Function: observable]
+}
 */
 ```
-## Subscribe 
+Store have `dispatch`, `subscribe`, `getState`, and `replaceReducer` methods.`
+
+### Store: Subscribe 
 ```javascript
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,} from 'redux'
+  createStore
+} = redux;
 
-const initState = { result: 1 };
-
-const addAction = {
-  type: 'ADD',
-  value: 4
+const initialState = {
+  result: 0
 };
 
-const calculateReducer = ( state = initState, action) => {
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
+  return state;
 };
 
-const store = createStore(calculateReducer);
+const store = createStore(calculatorReducer);
 
+// the view layer wants to know what is changed and update the view, by subscribing
 const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().result);
+  console.log('SUBSCRIPTION!!!');
+  console.log(store.getState());
 };
 
-const unsubscribe = store.subscribe(subscriber);
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5
+store.subscribe(subscriber);
 ```
-Let us call it again, o look the current state is now 9 !!!
+
+### Store: dispatch
+Now let us dispatch an action three times
 ```javascript
-import {
+const redux = require('redux');
+
+const {
   applyMiddleware,
   bindActionCreators,
   combineReducers,
   compose,
-  createStore,} from 'redux'
+  createStore
+} = redux;
 
-const initState = { result: 1 };
+const initialState = {
+  result: 0
+};
 
 const addAction = {
   type: 'ADD',
   value: 4
 };
 
-const calculateReducer = ( state = initState, action) => {
+const calculatorReducer = (state = initialState, action) => {
   if (action.type === 'ADD') {
     return {
       ...state,
       result: state.result + action.value
     }
   }
+  
+  return state;
 };
 
-const store = createStore(calculateReducer);
+const store = createStore(calculatorReducer);
 
 const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().result);
+  console.log('SUBSCRIPTION!!!');
+  console.log(store.getState());
 };
 
-const unsubscribe = store.subscribe(subscriber);
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5
-store.dispatch(addAction); // SUBSCRIPTION!!! 9
-```
-So the store is keeping track of the state of the world. Now we have a way to manage state, and manipulate state. 
-
-What is if we unsubscribe after we call it once, but call twice
-
-```javascript
-import {
-  applyMiddleware,
-  bindActionCreators,
-  combineReducers,
-  compose,
-  createStore,} from 'redux'
-
-const initState = { result: 1 };
-
-const addAction = {
-  type: 'ADD',
-  value: 4
-};
-
-const calculateReducer = ( state = initState, action) => {
-  if (action.type === 'ADD') {
-    return {
-      ...state,
-      result: state.result + action.value
-    }
-  }
-};
-
-const store = createStore(calculateReducer);
-
-const subscriber = () => {
-  console.log('SUBSCRIPTION!!!', store.getState().result);
-};
-
-const unsubscribe = store.subscribe(subscriber);
-
-store.dispatch(addAction); // SUBSCRIPTION!!! 5
-
-unsubscribe();
+store.subscribe(subscriber);
 
 store.dispatch(addAction);
+store.dispatch(addAction);
+store.dispatch(addAction);
+
+/*
+    SUBSCRIPTION!!!
+      { result: 4 }
+    SUBSCRIPTION!!!
+      { result: 8 }
+    SUBSCRIPTION!!!
+      { result: 12 }
+*/
+
+```
+So the store is keeping track of the state of the world. Now we have a way to manage state and manipulate state. 
+
+### Store: unsubscribe
+What is if we unsubscribe after we dispatch three actions, and dispatch one more time?
+
+```javascript
+const redux = require('redux');
+
+const {
+  applyMiddleware,
+  bindActionCreators,
+  combineReducers,
+  compose,
+  createStore
+} = redux;
+
+const initialState = {
+  result: 0
+};
+
+const addAction = {
+  type: 'ADD',
+  value: 4
+};
+
+const calculatorReducer = (state = initialState, action) => {
+  if (action.type === 'ADD') {
+    return {
+      ...state,
+      result: state.result + action.value
+    }
+  }
+  
+  return state;
+};
+
+const store = createStore(calculatorReducer);
+
+const subscriber = () => {
+  console.log('SUBSCRIPTION!!!');
+  console.log(store.getState());
+};
+
+const unsubscribe = store.subscribe(subscriber);
+
+store.dispatch(addAction);
+store.dispatch(addAction);
+store.dispatch(addAction);
+
+unsubscribe();
+store.dispatch(addAction);
+console.log(store.getState());
+
+/*
+    SUBSCRIPTION!!!
+    { result: 4 }
+    SUBSCRIPTION!!!
+    { result: 8 }
+    SUBSCRIPTION!!!
+    { result: 12 }
+    { result: 16 }
+*/
 ``` 
 
-React ONLY have one tree, one reducer. 
 ## combineReducer
+React ONLY have one tree, one reducer. 
+
 One tree for the entire app. Grate. App grow. We can only  have one reducer, you don't want your reducer to grow and grow and grow. Ideally likely be able to split it out. Unfortunately React only have the idea of one reducer. 
 
 We can only have one reducer, but what we could do is, we could have small reducers and when we setup a store we could theoretically combine them together into one.  

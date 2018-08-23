@@ -20,3 +20,6 @@ const calculatorReducer = ({state = initialState, action}) => {
 
 console.log(calculatorReducer({ action }));
 console.log(calculatorReducer({ action }));
+
+// { result: 4 }
+// { result: 4 }

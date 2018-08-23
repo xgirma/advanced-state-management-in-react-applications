@@ -26,7 +26,6 @@ const calculatorReducer = (state = initialState, action) => {
 const store = createStore(calculatorReducer);
 
 // the view layer wants to know what is changed and update the view, by subscribing
-
 const subscriber = () => {
   console.log('SUBSCRIPTION!!!');
   console.log(store.getState());
